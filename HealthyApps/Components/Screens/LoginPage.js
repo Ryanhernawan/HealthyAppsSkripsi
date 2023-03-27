@@ -78,8 +78,8 @@ const styles = StyleSheet.create({
     marginLeft: 50,
     marginRight: 50,
     width: '70%',
-    maxWidth: 385,
-    maxHeight: 308,
+    maxWidth: 290,
+    maxHeight: 240,
   },
   title:{
     alignContent: 'center',
@@ -89,7 +89,6 @@ const styles = StyleSheet.create({
     marginTop:16,
     fontSize: 20,
     fontWeight:'bold',
-    fontFamily: 'Arial',
     color: 'black',
   },
   desc:{
