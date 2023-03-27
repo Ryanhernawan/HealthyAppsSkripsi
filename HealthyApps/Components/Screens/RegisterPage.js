@@ -3,6 +3,7 @@ import React , {useState} from 'react';
 import { useNavigation } from '@react-navigation/native';
 import CustomInput from '../CustomComponents/CustomInput';
 import CustomButton from '../CustomComponents/CustomButton';
+import { RadioButton } from "react-native-paper";
 
 
 const RegisterScreen = () => {
@@ -10,7 +11,8 @@ const RegisterScreen = () => {
   const [Email, setEmail] = useState('');
   const [Password, setPassword] = useState('');
   const [ConfirmPassword, setConfirmPassword] = useState('');
-  
+  const [checked, setChecked] = useState("first");
+
 
   const {height} = useWindowDimensions();
   const navigation = useNavigation();
@@ -56,27 +58,58 @@ const RegisterScreen = () => {
 
   return (
     <View style={styles.root}>
-  
-       <Text style={styles.title}>Sign Up</Text>
+      <Text style={styles.title}>Register your account now</Text>
 
       <Text style={styles.labelEmail}>Fullname</Text>
-      <CustomInput  placeholder="Fullname" value = {Fullname} setValue={setFullname} />
+      <CustomInput
+        placeholder="Fullname"
+        value={Fullname}
+        setValue={setFullname}
+      />
 
       <Text style={styles.labelEmail}>Email</Text>
-      <CustomInput  placeholder="Email" value = {Email} setValue={setEmail} />
+      <CustomInput placeholder="Email" value={Email} setValue={setEmail} />
 
       <Text style={styles.labelPassword}>Pasword</Text>
-      <CustomInput  placeholder="Password" value ={Password} setValue={setPassword} secureTextEntry/>
+      <CustomInput
+        placeholder="Password"
+        value={Password}
+        setValue={setPassword}
+        secureTextEntry
+      />
 
       <Text style={styles.labelPassword}>Confirm Pasword</Text>
-      <CustomInput  placeholder="Confirm Pasword" value ={ConfirmPassword} setValue={setConfirmPassword} secureTextEntry/>
+      <CustomInput
+        placeholder="Confirm Pasword"
+        value={ConfirmPassword}
+        setValue={setConfirmPassword}
+        secureTextEntry
+      />
 
-      <CustomButton text= "Sign Up" onpress={validateRegister}/>
+      <Text style={styles.labelPassword} > Gender:</Text>
 
-      
+      <View style={{ flexDirection: "row", alignItems: "center", marginTop:16, marginLeft:16}}>
+        <View style={{ flexDirection: "row", alignItems: "center" }}>
+          <RadioButton
+            value="first"
+            status={checked === "first" ? "checked" : "unchecked"}
+            onPress={() => setChecked("first")}
+          />
+          <Text>Male</Text>
+        </View>
+        <View style={{ flexDirection: "row", alignItems: "center" }}>
+          <RadioButton
+            value="second"
+            status={checked === "second" ? "checked" : "unchecked"}
+            onPress={() => setChecked("second")}
+          />
+          <Text>Female</Text>
+        </View>
+      </View>
 
+      <CustomButton text="Sign Up" onpress={validateRegister} />
     </View>
-  )
+  );
 }
 
 
@@ -85,11 +118,12 @@ const styles = StyleSheet.create({
     marginTop: 30,
   },
   title:{
-    alignContent: 'center',
-    marginLeft: 152,
+    
+    marginLeft: 16,
     marginRight: 153,
-    marginTop:62,
-    marginBottom: 73,
+    marginTop:16,
+    marginBottom: 20,
+    width:300,
     alignItems: 'center',
     fontSize: 20,
     fontWeight:'bold',

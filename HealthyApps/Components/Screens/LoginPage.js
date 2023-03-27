@@ -33,6 +33,7 @@ const Login = () => {
       return false;
     }
     else{
+      navigation.navigate("Home");
       console.warn("Berhasil Login");
     }
   };
