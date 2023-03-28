@@ -50,6 +50,7 @@ const RegisterScreen = () => {
       return false;
     }
     else{
+      navigation.navigate("Home");
       console.warn("berhasil sign in")
     }
   }
@@ -115,13 +116,13 @@ const RegisterScreen = () => {
 
 const styles = StyleSheet.create({
   root:{
-    marginTop: 30,
+    marginTop: 16,
   },
   title:{
     
     marginLeft: 16,
     marginRight: 153,
-    marginTop:16,
+    marginTop:1,
     marginBottom: 20,
     width:300,
     alignItems: 'center',
