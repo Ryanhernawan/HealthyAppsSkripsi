@@ -8,6 +8,8 @@ import Login from "./Screens/LoginPage";
 import Register from "./Screens/RegisterPage";
 import Home from "./Screens/HomePage";
 import Workout from "./Screens/WorkoutPage";
+import Recipes from "./Screens/RecipesPage";
+import Forum from "./Screens/ForumPage";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -28,6 +30,7 @@ function BottomNavigation() {
           ),
         }}
       ></Tab.Screen>
+
       <Tab.Screen
         name="Workout"
         component={Workout}
@@ -35,6 +38,28 @@ function BottomNavigation() {
           title: "Workout",
           tabBarIcon: ({ size, color }) => (
             <MaterialCommunityIcons name="dumbbell" size={size} color={color} />
+          ),
+        }}
+      ></Tab.Screen>
+
+      <Tab.Screen
+        name="Recipes"
+        component={Recipes}
+        options={{
+          title: "Recipes",
+          tabBarIcon: ({ size, color }) => (
+            <MaterialCommunityIcons name="book-open-blank-variant" size={size} color={color} />
+          ),
+        }}
+      ></Tab.Screen>
+
+      <Tab.Screen
+        name="Forum"
+        component={Forum}
+        options={{
+          title: "Forum",
+          tabBarIcon: ({ size, color }) => (
+            <MaterialCommunityIcons name="chat" size={size} color={color} />
           ),
         }}
       ></Tab.Screen>
@@ -72,7 +97,22 @@ export default function Navigation() {
             headerShown: false,
           }}
         />
+        <Stack.Screen
+          name="Recipes"
+          component={BottomNavigation}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="Forum"
+          component={BottomNavigation}
+          options={{
+            headerShown: false,
+          }}
+        />
       </Stack.Navigator>
+      
     </NavigationContainer>
   );
 }

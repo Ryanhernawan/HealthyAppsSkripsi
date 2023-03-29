@@ -17,8 +17,8 @@ import CustomButton from "../CustomComponents/CustomButton";
 import { useNavigation } from "@react-navigation/native";
 
 const Login = () => {
-  const [Email, setEmail] = useState("");
-  const [Password, setPassword] = useState("");
+  const [Email, setEmail] = useState("healthyApps@gmail.com");
+  const [Password, setPassword] = useState("1234567");
   const navigation = useNavigation();
 
   const goToRegister = () => {
