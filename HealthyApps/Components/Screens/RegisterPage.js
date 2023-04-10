@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View , Image, useWindowDimensions, Alert} from 'react-native';
+import { StyleSheet, Text, View , Image, useWindowDimensions, Alert, ScrollView} from 'react-native';
 import React , {useState} from 'react';
 import { useNavigation } from '@react-navigation/native';
 import CustomInput from '../CustomComponents/CustomInput';
@@ -58,6 +58,7 @@ const RegisterScreen = () => {
   
 
   return (
+    <ScrollView>
     <View style={styles.root}>
       <Text style={styles.title}>Register your account now</Text>
 
@@ -110,6 +111,7 @@ const RegisterScreen = () => {
 
       <CustomButton text="Sign Up" onpress={validateRegister} />
     </View>
+    </ScrollView>
   );
 }
 

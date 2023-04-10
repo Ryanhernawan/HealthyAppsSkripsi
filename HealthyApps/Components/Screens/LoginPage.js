@@ -45,7 +45,8 @@ const Login = () => {
   };
 
   return (
-    <View style={styles.container}>
+    <ScrollView>
+          <View style={styles.container}>
         <Image source={Logo} style={[styles.logo]} resizeMode="contain" />
 
         <Text style={styles.title}>Welcome To Healthy Apps</Text>
@@ -78,6 +79,8 @@ const Login = () => {
         />
       
     </View>
+    </ScrollView>
+
   );
 };
 
