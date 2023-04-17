@@ -12,6 +12,7 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import Profile from "../../assets/image/ProfilePic.png";
+import BodyShapper from "../../assets/image/BODYSHAPER.jpg"
 
 const HomePage = () => {
   const navigation = useNavigation();
@@ -27,14 +28,14 @@ const HomePage = () => {
       image: require("../../assets/image/Cardio.jpeg"),
     },
     {
-      judul: "Beginner Cardio Workout",
+      judul: "Intermediate Cardio Workout",
       time: "15 Min",
-      image: require("../../assets/image/Cardio.jpeg"),
+      image: require("../../assets/image/Cardio.jpg"),
     },
     {
-      judul: "Beginner Cardio Workout",
+      judul: "Body Shaper",
       time: "15 Min",
-      image: require("../../assets/image/Cardio.jpeg"),
+      image: require("../../assets/image/BODYSHAPER.jpg"),
     },
   ]);
 
@@ -73,7 +74,9 @@ const HomePage = () => {
       <View style={styles.container}>
         <View style={styles.header}>
           <Text style={styles.teks}>Halo,Reza</Text>
+          <TouchableOpacity>
           <Image source={Profile} style={styles.gambar} />
+          </TouchableOpacity>
         </View>
 
         {/* Recomendation Workout Section  */}
@@ -129,9 +132,7 @@ const HomePage = () => {
           >
             Healthy Food Category
           </Text>
-          <TouchableOpacity>
-            <Text style={{ marginTop: 30, marginRight: 16 }}>See More</Text>
-          </TouchableOpacity>
+  
         </View>
 
         <View style={{ marginLeft: 16, marginTop: 20 }}>
