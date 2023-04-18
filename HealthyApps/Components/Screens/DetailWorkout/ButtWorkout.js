@@ -41,32 +41,6 @@ const AbsWorkout = () => {
 
   const [isLiked, setIsLiked] = useState(false);
 
-  // Fetch Data
-  // const [data, setData] = useState({
-  //   title: '',
-  //   level: '',
-  //   time: ''
-  // });
-  // useEffect(() => {
-  //   fetchData();
-  // }, []);
-
-  // const fetchData = async () => {
-  //   const response = await fetch('http://192.168.18.124:19000/api/HealthyApps/WorkoutCategory', {
-  //     method: 'POST',
-  //     headers: {
-  //       Accept: 'application/json',
-  //       'Content-Type': 'application/json'
-  //     },
-  //     body: JSON.stringify({
-  //       Category: 'ABS',
-        
-  //     })
-  //   });
-  //   const json = await response.json();
-  //   setData(json);
-  // };
-
 
 
   const [dataWorkout, setDataWorkout] = useState([
@@ -116,7 +90,7 @@ const AbsWorkout = () => {
             marginLeft: 122,
           }}
         >
-          ABS
+          BUTT --ON WORKING
         </Text>
       </View>
 

@@ -38,10 +38,8 @@ const DetailRecipes = ({ route }) => {
   const touchableRef = useRef();
 
   return (
-    // <>
-    // {console.log(route.params.data)}
     <View style={{ marginBottom: 40 }}>
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <View style={{ margin: 30 }}>
           <View
             style={{
@@ -75,7 +73,7 @@ const DetailRecipes = ({ route }) => {
             </TouchableOpacity>
           </View>
         </View>
-        <View style={{}}>
+        <View style={{alignItems:"center"}}>
           <Image
             style={{ width: 450, height: 198 }}
             source={route.params.data.image}
@@ -93,7 +91,7 @@ const DetailRecipes = ({ route }) => {
           <Text
             style={{
               textAlign: "center",
-              width: 400,
+              width: 350,
               marginLeft: 5,
               marginTop: 16,
             }}
@@ -111,7 +109,7 @@ const DetailRecipes = ({ route }) => {
               height: 40,
               paddingTop: 9,
               borderRadius: 100,
-              marginLeft: 187,
+              
             }}
           >
             {route.params.data.time}
@@ -168,7 +166,6 @@ const DetailRecipes = ({ route }) => {
         <Text style={{ textAlign: "center", color: "#16A34A" }}>Cook Now</Text>
       </TouchableOpacity>
     </View>
-    // </>
   );
 };
 

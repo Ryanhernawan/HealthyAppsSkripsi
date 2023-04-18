@@ -46,6 +46,14 @@ const WorkoutPage = () => {
     navigation.navigate("Arms")
   }
 
+  const goToLegsDetail =() =>{
+    navigation.navigate("Legs")
+  }
+
+  const goToButtDetail = () =>{
+    navigation.navigate("Butt")
+  }
+
   const goToVidio1 = () =>{
     Linking.openURL('https://www.youtube.com/watch?v=4o1YzksPuqg');
   }
@@ -156,14 +164,14 @@ const WorkoutPage = () => {
             </TouchableOpacity>
 
             <View style={{marginLeft:37}}> 
-            <TouchableOpacity>
+            <TouchableOpacity onPress={goToLegsDetail}>
               <Image source={Leg} style={{width:89, height:90}} />
               <Text style={{alignItems:"center", textAlign:"center", fontWeight:"bold"}}>Legs</Text>
             </TouchableOpacity>
           </View>
 
           <View style={{marginLeft:37}}> 
-            <TouchableOpacity>
+            <TouchableOpacity onPress={goToButtDetail}>
               <Image source={Butt} style={{width:89, height:90}} />
               <Text style={{alignItems:"center", textAlign:"center", fontWeight:"bold"}}>Butt</Text>
             </TouchableOpacity>

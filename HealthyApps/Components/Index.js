@@ -19,6 +19,8 @@ import ChestWO from "./Screens/DetailWorkout/ChestWorkout";
 import AbsWO from "./Screens/DetailWorkout/AbsWorkout";
 import BackWO from "./Screens/DetailWorkout/BackWorkout";
 import ArmsWO from "./Screens/DetailWorkout/ArmsWorkout";
+import LegsWO from "./Screens/DetailWorkout/LegsWorkout";
+import ButtWO from "./Screens/DetailWorkout/ButtWorkout";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -177,7 +179,23 @@ export default function Navigation() {
           options={{
             headerShown: false,
           }}
-        />   
+        />
+        
+        <Stack.Screen
+          name="Legs"
+          component={LegsWO}
+          options={{
+            headerShown: false,
+          }}
+        />     
+        
+        <Stack.Screen
+          name="Butt"
+          component={ButtWO}
+          options={{
+            headerShown: false,
+          }}
+        />    
 
 
 

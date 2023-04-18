@@ -48,13 +48,15 @@ const ForumPage = ({ value, setValue, placeholder }) => {
               height: 40,
             }}
           />
-          <MaterialCommunityIcons
-            name="send"
-            size={25}
-            style={{ marginLeft: 12 }}
-          />
+          <TouchableOpacity>
+            <MaterialCommunityIcons
+              name="send"
+              size={25}
+              style={{ marginLeft: 12 }}
+            />
+          </TouchableOpacity>
         </View>
-        <View style={{ marginLeft: 16 }}>
+        <View style={{ marginLeft: 16, marginRight: 16 }}>
           <View
             style={{
               flexDirection: "row",
@@ -71,7 +73,6 @@ const ForumPage = ({ value, setValue, placeholder }) => {
           </View>
           <Text
             style={{
-      
               fontWeight: "bold",
               marginTop: 20,
               fontSize: 22,
@@ -79,7 +80,22 @@ const ForumPage = ({ value, setValue, placeholder }) => {
           >
             Title
           </Text>
-          <Text style={{marginTop:5}}>Comment</Text>
+          <Text style={{ marginTop: 5, textAlign: "justify", lineHeight: 20 }}>
+            Lorem Ipsum is simply dummy text of the printing and typesetting
+            industry. Lorem Ipsum has been the industry's standard dummy text
+            ever since the 1500s, when an unknown printer took a galley of type
+            and scrambled it to make a type specimen book.
+          </Text>
+          <View style={{ flexDirection: "row", marginTop:10}}>
+            <View style={{ flexDirection: "row", alignItems: "center", marginRight:13 }}>
+              <MaterialCommunityIcons name="heart" color={"#F87171"} size={20} style={{marginRight:4}} />
+              <Text>100</Text>
+            </View>
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <MaterialCommunityIcons name="comment" color={"black"} size={20} style={{marginRight:4}}/>
+              <Text>100</Text>
+            </View>
+          </View>
         </View>
       </View>
     </ScrollView>
