@@ -26,13 +26,13 @@ const AbsWorkout = () => {
   };
 
   const goToVidio1 = () => {
-    Linking.openURL("https://www.youtube.com/watch?v=1f8yoFFdkcY");
+    Linking.openURL("https://www.youtube.com/watch?v=bggX6ocjojk");
   };
   const goToVidio2 = () => {
-    Linking.openURL("https://www.youtube.com/watch?v=EfJ4aB_enVE&t=5s");
+    Linking.openURL("https://www.youtube.com/watch?v=yV7fDgNlYKM");
   };
   const goToVidio3 = () => {
-    Linking.openURL("https://www.youtube.com/watch?v=svdPTfOpAyQ&t=1s");
+    Linking.openURL("https://www.youtube.com/watch?v=6hOAGDbkLOw");
   };
 
   const handlePress = () => {
@@ -45,24 +45,24 @@ const AbsWorkout = () => {
 
   const [dataWorkout, setDataWorkout] = useState([
     {
-      judul: "10 Min Beginner Abs Workout",
+      judul: "15 min BOOTY BURN",
       level: "Beginner",
-      time: "10 m",
-      image: require("../../../assets/image/AbsWorkout/Abs1.webp"),
+      time: "17 m",
+      image: require("../../../assets/image/ButtWorkout/Butt1.webp"),
       goTo: goToVidio1
     },
     {
-      judul: "15 MIN ABS WORKOUT",
+      judul: "10 BEST EXERCISES TO START GROWING YOUR BOOTY",
       level: "Intermediate",
-      time: "15 m",
-      image: require("../../../assets/image/AbsWorkout/Abs2.webp"),
+      time: "12 m",
+      image: require("../../../assets/image/ButtWorkout/Butt2.webp"),
       goTo: goToVidio2
     },
     {
-      judul: "15 MIN SIX PACK ABS",
-      level: "Beginner",
+      judul: "10 MIN GLUTE WORKOUT: Work Your Booty with No Equipment",
+      level: "Advance",
       time: "15 m",
-      image: require("../../../assets/image/AbsWorkout/Abs3.webp"),
+      image: require("../../../assets/image/ButtWorkout/Butt3.webp"),
       goTo: goToVidio3
 
     },
@@ -90,7 +90,7 @@ const AbsWorkout = () => {
             marginLeft: 122,
           }}
         >
-          BUTT --ON WORKING
+          BUTT
         </Text>
       </View>
 

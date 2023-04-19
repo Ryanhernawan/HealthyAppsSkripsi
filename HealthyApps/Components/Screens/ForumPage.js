@@ -86,13 +86,33 @@ const ForumPage = ({ value, setValue, placeholder }) => {
             ever since the 1500s, when an unknown printer took a galley of type
             and scrambled it to make a type specimen book.
           </Text>
-          <View style={{ flexDirection: "row", marginTop:10}}>
-            <View style={{ flexDirection: "row", alignItems: "center", marginRight:13 }}>
-              <MaterialCommunityIcons name="heart" color={"#F87171"} size={20} style={{marginRight:4}} />
+          <View style={{ flexDirection: "row", marginTop: 10 }}>
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                marginRight: 13,
+              }}
+            >
+              <TouchableOpacity>
+                <MaterialCommunityIcons
+                  name="heart"
+                  color={"#F87171"}
+                  size={20}
+                  style={{ marginRight: 4 }}
+                />
+              </TouchableOpacity>
               <Text>100</Text>
             </View>
             <View style={{ flexDirection: "row", alignItems: "center" }}>
-              <MaterialCommunityIcons name="comment" color={"black"} size={20} style={{marginRight:4}}/>
+              <TouchableOpacity>
+                <MaterialCommunityIcons
+                  name="comment"
+                  color={"black"}
+                  size={20}
+                  style={{ marginRight: 4 }}
+                />
+              </TouchableOpacity>
               <Text>100</Text>
             </View>
           </View>

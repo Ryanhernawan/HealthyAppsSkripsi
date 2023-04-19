@@ -30,6 +30,26 @@ const WorkoutPage = () => {
 
   const navigation = useNavigation();
 
+  const goToAllWorkout = () =>{
+    navigation.navigate("AllWorkout")
+  }
+
+  const goToFavoriteWorkout = () =>{
+    navigation.navigate("MyFavoriteWorkout")
+  }
+
+  const goToBeginnerWorkout = () =>{
+    navigation.navigate("BeginnerWorkout")
+  }
+
+  const goToAdvanceWorkout = () =>{
+    navigation.navigate("AdvanceWorkout")
+  }
+
+  const goToIntermediateWorkout = () =>{
+    navigation.navigate("IntermediateWorkout")
+  }
+
   const goToChestDetail = () =>{
     navigation.navigate("Chest")
   }
@@ -53,6 +73,7 @@ const WorkoutPage = () => {
   const goToButtDetail = () =>{
     navigation.navigate("Butt")
   }
+  
 
   const goToVidio1 = () =>{
     Linking.openURL('https://www.youtube.com/watch?v=4o1YzksPuqg');
@@ -69,25 +90,25 @@ const WorkoutPage = () => {
     <View style={{margin:30}}>
       <Text style={{marginTop:50, fontSize:20, fontWeight:"bold"}}>Workouts</Text>
       <View style={{flexDirection:"row"}}>
-        <TouchableOpacity style={{backgroundColor:"#E2E8F0", width:30, height:20, marginTop:10, borderRadius:4}}>
+        <TouchableOpacity style={{backgroundColor:"#E2E8F0", width:30, height:20, marginTop:10, borderRadius:4}} onPress={goToAllWorkout}>
           <Text style={{textAlign:"center"}}>All</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={{backgroundColor:"#E2E8F0", width:90, height:20, marginTop:10, borderRadius:4, marginLeft:10}}>
+        <TouchableOpacity style={{backgroundColor:"#E2E8F0", width:90, height:20, marginTop:10, borderRadius:4, marginLeft:10}} onPress={goToFavoriteWorkout}>
           <Text style={{textAlign:"center"}}>My Favorite</Text>
         </TouchableOpacity>
       </View>
 
       <View style={{flexDirection:"row"}}>
-        <TouchableOpacity style={{backgroundColor:"#E2E8F0", width:70, height:20, marginTop:10, borderRadius:4}}>
+        <TouchableOpacity style={{backgroundColor:"#E2E8F0", width:70, height:20, marginTop:10, borderRadius:4}} onPress={goToBeginnerWorkout}>
           <Text style={{textAlign:"center"}}>Beginner</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={{backgroundColor:"#E2E8F0", width:90, height:20, marginTop:10, borderRadius:4, marginLeft:10}}>
+        <TouchableOpacity style={{backgroundColor:"#E2E8F0", width:90, height:20, marginTop:10, borderRadius:4, marginLeft:10}} onPress={goToIntermediateWorkout}>
           <Text style={{textAlign:"center"}}>Intermediate</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={{backgroundColor:"#E2E8F0", width:70, height:20, marginTop:10, borderRadius:4, marginLeft:10}}>
+        <TouchableOpacity style={{backgroundColor:"#E2E8F0", width:70, height:20, marginTop:10, borderRadius:4, marginLeft:10}} onPress={goToAdvanceWorkout}>
           <Text style={{textAlign:"center"}}>Advance</Text>
         </TouchableOpacity>
       </View>

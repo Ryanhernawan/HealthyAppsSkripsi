@@ -22,6 +22,14 @@ import ArmsWO from "./Screens/DetailWorkout/ArmsWorkout";
 import LegsWO from "./Screens/DetailWorkout/LegsWorkout";
 import ButtWO from "./Screens/DetailWorkout/ButtWorkout";
 
+// IMPORT LEVEL WORKOUT
+import AllWorkout from "./Screens/LevelWorkout/AllWorkout";
+import MyFavoriteWorkout from "./Screens/LevelWorkout/MyFavoriteWorkout";
+import BeginnerWorkout from "./Screens/LevelWorkout/BeginnerWorkout";
+import AdvanceWorkout from "./Screens/LevelWorkout/AdvanceWorkout";
+import IntermediateWorkout from "./Screens/LevelWorkout/IntermediateWorkout";
+
+
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
@@ -145,8 +153,6 @@ export default function Navigation() {
           }}
         />
 
-     
-
         {/* DETAIL WORKOUT */}
 
         <Stack.Screen
@@ -197,9 +203,6 @@ export default function Navigation() {
           }}
         />    
 
-
-
-
         {/* DETAIL WORKOUT END */}
 
         <Stack.Screen
@@ -210,6 +213,47 @@ export default function Navigation() {
           }}
         />
 
+        {/* LEVEL WORKOUT */}
+
+        <Stack.Screen
+          name="AllWorkout"
+          component={AllWorkout}
+          options={{
+            headerShown: false,
+          }}
+        />
+
+        <Stack.Screen
+          name="MyFavoriteWorkout"
+          component={MyFavoriteWorkout}
+          options={{
+            headerShown: false,
+          }}
+        />
+
+         <Stack.Screen
+          name="BeginnerWorkout"
+          component={BeginnerWorkout}
+          options={{
+            headerShown: false,
+          }}
+        />
+
+        <Stack.Screen
+          name="AdvanceWorkout"
+          component={AdvanceWorkout}
+          options={{
+            headerShown: false,
+          }}
+        />
+
+         <Stack.Screen
+          name="IntermediateWorkout"
+          component={IntermediateWorkout}
+          options={{
+            headerShown: false,
+          }}
+        />
 
       </Stack.Navigator>  
     </NavigationContainer>

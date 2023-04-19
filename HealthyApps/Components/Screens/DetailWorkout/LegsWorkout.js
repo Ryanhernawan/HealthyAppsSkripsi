@@ -26,13 +26,13 @@ import {
     };
   
     const goToVidio1 = () => {
-      Linking.openURL("https://www.youtube.com/watch?v=1f8yoFFdkcY");
+      Linking.openURL("https://www.youtube.com/watch?v=q7rCeOa_m58");
     };
     const goToVidio2 = () => {
-      Linking.openURL("https://www.youtube.com/watch?v=EfJ4aB_enVE&t=5s");
+      Linking.openURL("https://www.youtube.com/watch?v=wB9ukMeQfjU");
     };
     const goToVidio3 = () => {
-      Linking.openURL("https://www.youtube.com/watch?v=svdPTfOpAyQ&t=1s");
+      Linking.openURL("https://www.youtube.com/watch?v=Jg61m0DwURs");
     };
   
     const handlePress = () => {
@@ -45,24 +45,24 @@ import {
   
     const [dataWorkout, setDataWorkout] = useState([
       {
-        judul: "10 Min Beginner Abs Workout",
+        judul: "20 Min Complete Home Leg Workout",
         level: "Beginner",
-        time: "10 m",
-        image: require("../../../assets/image/AbsWorkout/Abs1.webp"),
+        time: "20 m",
+        image: require("../../../assets/image/LegsWorkout/Legs1.webp"),
         goTo: goToVidio1
       },
       {
-        judul: "15 MIN ABS WORKOUT",
+        judul: "15 Min Complete Home Leg Workout",
         level: "Intermediate",
         time: "15 m",
-        image: require("../../../assets/image/AbsWorkout/Abs2.webp"),
+        image: require("../../../assets/image/LegsWorkout/Legs2.webp"),
         goTo: goToVidio2
       },
       {
-        judul: "15 MIN SIX PACK ABS",
-        level: "Beginner",
-        time: "15 m",
-        image: require("../../../assets/image/AbsWorkout/Abs3.webp"),
+        judul: "SLIM LEGS IN 20 DAYS",
+        level: "Advance",
+        time: "11 m",
+        image: require("../../../assets/image/LegsWorkout/Legs3.webp"),
         goTo: goToVidio3
   
       },
@@ -90,7 +90,7 @@ import {
               marginLeft: 122,
             }}
           >
-            LEGS --ON WORKING
+            LEGS
           </Text>
         </View>
   
