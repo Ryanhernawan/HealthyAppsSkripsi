@@ -10,13 +10,17 @@ import {
   ImageBackground,
   Linking,
 } from "react-native";
-import React, { useState, useEffect  } from "react";
+import React, { useState, useEffect} from "react";
+import axios from 'axios';
+
+
 import WO1 from "../../../assets/image/AbsWorkout/Abs1.webp";
 import WO2 from "../../../assets/image/AbsWorkout/Abs2.webp";
 import WO3 from "../../../assets/image/AbsWorkout/Abs3.webp";
 
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { Link, useNavigation } from "@react-navigation/native";
+import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry";
 
 const AbsWorkout = () => {
   const navigation = useNavigation();
@@ -41,31 +45,28 @@ const AbsWorkout = () => {
 
   const [isLiked, setIsLiked] = useState(false);
 
-  // Fetch Data
-  // const [data, setData] = useState({
-  //   title: '',
-  //   level: '',
-  //   time: ''
-  // });
-  // useEffect(() => {
-  //   fetchData();
-  // }, []);
+  const getData = async() =>{
+    axios.get('http://192.168.18.124:5000/api/HealthyApps/WorkoutCategoryABS')
+    .then(response => {
+      console.log(response.data);
+    })
+    .catch(error => {
+      console.error(error);
+    });
+    // try{
+    //   const res = await axios.get('http://192.168.18.124:5000/api/HealthyApps/WorkoutCategory-ABS',{
+      
+    //   })
+    //   console.log(res)
+    // }catch(error){
+    //   alert(error.message)
+    // }
+  }
 
-  // const fetchData = async () => {
-  //   const response = await fetch('http://192.168.18.124:19000/api/HealthyApps/WorkoutCategory', {
-  //     method: 'POST',
-  //     headers: {
-  //       Accept: 'application/json',
-  //       'Content-Type': 'application/json'
-  //     },
-  //     body: JSON.stringify({
-  //       Category: 'ABS',
-        
-  //     })
-  //   });
-  //   const json = await response.json();
-  //   setData(json);
-  // };
+  
+  useEffect(() =>{
+    getData()
+  }, [])
 
 
 
@@ -97,7 +98,7 @@ const AbsWorkout = () => {
   return (
    
     <>
-    {/* {console.log(data)} */}
+    {/* {console.log(getData)} */}
     <View style={{ margin: 30 }}>
       <View
         style={{ flexDirection: "row", alignItems: "center", marginTop: 30 }}

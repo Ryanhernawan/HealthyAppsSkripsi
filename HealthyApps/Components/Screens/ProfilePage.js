@@ -120,18 +120,17 @@ const ProfilePage = () => {
       <View
         style={{
           flexDirection: "row",
-
           marginTop: 30,
           alignItems: "center",
         }}
       >
-        <MaterialCommunityIcons name="bell-outline" size={25} />
+        {/* <MaterialCommunityIcons name="bell-outline" size={25} />
         <View style={{ marginLeft: 10, flex: 1 }}>
           <Text style={{ fontWeight: "bold", fontSize: 15 }}>Notification</Text>
         </View>
         <TouchableOpacity>
           <MaterialCommunityIcons name="toggle-switch-off-outline" size={25} />
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
 
       {/* END SETTING MENU SECTION */}

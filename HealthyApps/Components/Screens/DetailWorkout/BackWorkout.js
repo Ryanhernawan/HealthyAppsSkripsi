@@ -10,7 +10,7 @@ import {
     ImageBackground,
     Linking,
   } from "react-native";
-  import React from 'react'
+  import React, { useState, useEffect  } from 'react'
   import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
   import { Link, useNavigation } from "@react-navigation/native";
 
@@ -35,59 +35,123 @@ const BackWorkout = () => {
       }
 
     const goToVidio2 = () =>{
-        Linking.openURL('https://www.youtube.com/watch?v=EfJ4aB_enVE&t=5s');
+        Linking.openURL('https://www.youtube.com/watch?v=tf685ggJv9k&t=13s');
       }
 
     const goToVidio3 = () =>{
-        Linking.openURL('https://www.youtube.com/watch?v=svdPTfOpAyQ&t=1s');
+        Linking.openURL('https://www.youtube.com/watch?v=nfsQW1uGoBg');
       }
 
-  return (
-    <ScrollView>
-    <View style={{margin:30}}>
+      const handlePress = () => {
+        setIsLiked(!isLiked);
+      };
+    
+      const [isLiked, setIsLiked] = useState(false);
+    
 
-      <View style={{flexDirection:"row", alignItems:"center", marginTop:30}}>
-        <MaterialCommunityIcons name="arrow-left" size={25} onPress={goToWorkout} />
-        <Text style={{textAlign:"center", alignItems:"center",fontWeight:"bold",fontSize:20, marginLeft:122}}>BACK</Text>
+    const [dataWorkout, setDataWorkout] = useState([
+        {
+          judul: "BACK WORKOUT AT HOME",
+          level: "Beginner",
+          time: "15 m",
+          image: require("../../../assets/image/BackWorkout/Back1.webp"),
+          goTo: goToVidio1
+        },
+        {
+          judul: "20 Minute Dumbbell Back and Biceps",
+          level: "Intermediate",
+          time: "20 m",
+          image: require("../../../assets/image/BackWorkout/Back2.webp"),
+          goTo: goToVidio2
+        },
+        {
+          judul: "At Home Back Workout",
+          level: "Beginner",
+          time: "7 m",
+          image: require("../../../assets/image/BackWorkout/Back3.webp"),
+          goTo: goToVidio3
+    
+        },
+      ]);
+
+  return (
+    <>
+    {/* {console.log(data)} */}
+    <View style={{ margin: 30 }}>
+      <View
+        style={{ flexDirection: "row", alignItems: "center", marginTop: 30 }}
+      >
+        <MaterialCommunityIcons
+          name="arrow-left"
+          size={25}
+          onPress={goToWorkout}
+        />
+        <Text
+          style={{
+            textAlign: "center",
+            alignItems: "center",
+            fontWeight: "bold",
+            fontSize: 20,
+            marginLeft: 122,
+          }}
+        >
+          BACK
+        </Text>
       </View>
 
+      <View style={{ marginTop: 30 }}>
+        <FlatList
+         style={{ borderColor: "#FFFFF",height: 550}}
+         showsVerticalScrollIndicator={false}
+          data={dataWorkout}
+          renderItem={({ item }) => (
+            <TouchableOpacity
+              style={{
+                backgroundColor: "#FFFFFF",
+                borderRadius: 10,
+                elevation: 3,
+                overflow: "hidden",
+                marginTop:20
+               
+              }}
+              onPress={item.goTo}
+            >
+              <ImageBackground
+                source={item.image}
+                style={{ height: 170 }}
+              ></ImageBackground>
 
-      <View style={{marginTop:30}}>
-        <TouchableOpacity style={{backgroundColor:"#FFFFFF", borderRadius:10, elevation:3, overflow:"hidden"}} onPress={goToVidio1}>
-            <ImageBackground source={WO1} style={{height:170}}>
-            </ImageBackground>
-            <Text style={{marginTop:10,marginLeft:10, fontWeight:"bold"}}>BACK WORKOUT AT HOME</Text>
-          <View style={{flexDirection:"row",marginBottom:16}}>
-            <Text style={{marginTop:4,marginLeft:10,}}>Beginner</Text>
-            <Text style={{marginTop:4,marginLeft:10,}}>15 m</Text>
-          </View>
+              <View style={{ flexDirection: "row" }}>
+                <Text
+                  style={{
+                    marginTop: 10,
+                    marginLeft: 10,
+                    fontWeight: "bold",
+                    flex: 1,
+                  }}
+                >
+                  {item.judul}
+                </Text>
 
-
-        </TouchableOpacity>
-        <TouchableOpacity style={{backgroundColor:"#FFFFFF", borderRadius:10, elevation:3, overflow:"hidden", marginTop:30}} onPress={goToVidio2}>
-          <ImageBackground source={WO2} style={{height:170}}>
-            </ImageBackground>
-            <Text style={{marginTop:10,marginLeft:10, fontWeight:"bold"}}>12 MIN ABS WORKOUT</Text>
-          <View style={{flexDirection:"row",marginBottom:16}}>
-            <Text style={{marginTop:4,marginLeft:10,}}>Intermediate</Text>
-            <Text style={{marginTop:4,marginLeft:10,}}>12 m</Text>
-          </View>
-
-        </TouchableOpacity>
-
-        <TouchableOpacity style={{backgroundColor:"#FFFFFF", borderRadius:10, elevation:3, overflow:"hidden", marginTop:30}} onPress={goToVidio3}>
-          <ImageBackground source={WO3} style={{height:170}}>
-            </ImageBackground>
-            <Text style={{marginTop:10,marginLeft:10, fontWeight:"bold"}}>10 MIN SIX PACK ABS</Text>
-          <View style={{flexDirection:"row",marginBottom:16}}>
-            <Text style={{marginTop:4,marginLeft:10,}}>Beginner</Text>
-            <Text style={{marginTop:4,marginLeft:10,}}>10 m</Text>
-          </View>
-
-        </TouchableOpacity>
+                <TouchableOpacity onPress={handlePress}>
+                  <MaterialCommunityIcons
+                    name="heart"
+                    size={30}
+                    style={{ marginRight: 10 }}
+                  />
+                </TouchableOpacity>
+              </View>
+              <View style={{ flexDirection: "row", marginBottom: 16 }}>
+                <Text style={{ marginTop: 4, marginLeft: 10 }}>{item.level}</Text>
+                <Text style={{ marginTop: 4, marginLeft: 10 }}>{item.time}</Text>
+              </View>
+            </TouchableOpacity>
+           )}
+        /> 
       </View>
     </View>
-    </ScrollView>
+
+    </>
   )
 }
 
