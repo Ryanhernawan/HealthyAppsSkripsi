@@ -54,7 +54,7 @@ const Login = () => {
           Getting Healthy Is Important For Your Life
         </Text>
         
-        <Text style={styles.labelEmail}>Email/Username</Text>
+        <Text style={styles.labelEmail}>Email</Text>
         <CustomInput placeholder="Email" value={Email} setValue={setEmail} />
 
         <Text style={styles.labelPassword}>Pasword</Text>

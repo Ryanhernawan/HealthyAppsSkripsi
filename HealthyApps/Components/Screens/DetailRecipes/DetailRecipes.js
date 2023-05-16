@@ -76,12 +76,12 @@ const DetailRecipes = ({ route }) => {
         <View style={{alignItems:"center"}}>
           <Image
             style={{ width: 450, height: 198 }}
-            source={route.params.data.image}
+            source={{uri: route.params.data.image}}
           />
           <Text
             style={{ textAlign: "center", fontWeight: "500", marginTop: 13 }}
           >
-            {route.params.data.judul}
+            {route.params.data.title}
           </Text>
           <Text
             style={{ marginTop: 30, textAlign: "center", fontWeight: "500" }}

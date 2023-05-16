@@ -19,8 +19,14 @@ import {
   import WO2 from '../../../assets/image/AbsWorkout/Abs2.webp'
   import WO3 from '../../../assets/image/AbsWorkout/Abs3.webp'
 
+  // IMPORT FETCHNG API
+  import axios from "axios";
+  import app from '../config'
+  import firebase from 'firebase/compat/app'
+  import {getDatabase, ref, onValue} from  'firebase/database';
+  // --------------
 
-
+  
 
 const BackWorkout = () => {
 

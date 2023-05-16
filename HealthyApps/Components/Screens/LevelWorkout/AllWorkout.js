@@ -15,10 +15,23 @@ import WO1 from "../../../assets/image/AbsWorkout/Abs1.webp";
 import WO2 from "../../../assets/image/AbsWorkout/Abs2.webp";
 import WO3 from "../../../assets/image/AbsWorkout/Abs3.webp";
 
+// IMPORT FETCHNG API
+import axios from "axios";
+import app from '../config'
+
+// import {db} from './config'
+import firebase from 'firebase/compat/app'
+
+import {getDatabase, ref, onValue, get} from  'firebase/database';
+
+// -------------------------
+
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { Link, useNavigation } from "@react-navigation/native";
 
-const AllWorkout = () => {
+
+
+const AllWorkout =  () => {
 
   const navigation = useNavigation();
 
@@ -39,38 +52,36 @@ const AllWorkout = () => {
   const handlePress = () => {
     setIsLiked(!isLiked);
   };
-
   const [isLiked, setIsLiked] = useState(false);
 
-  const [dataWorkout, setDataWorkout] = useState([
-    {
-      judul: "10 Min Beginner Abs Workout",
-      level: "Beginner",
-      time: "10 m",
-      image: require("../../../assets/image/AbsWorkout/Abs1.webp"),
-      goTo: goToVidio1
-    },
-    {
-      judul: "Get Bigger Arms In 30 Days",
-      level: "Intermediate",
-      time: "5 m",
-      image: require("../../../assets/image/ArmsWorkout/Arms2.webp"),
-      goTo: goToVidio2
-    },
-    {
-      judul: "Home Chest Workout",
-      level: "Beginner",
-      time: "10 m",
-      image: require("../../../assets/image/ChestWorkout/Chest3.webp"),
-      goTo: goToVidio3
 
-    },
-  ]);
+  // FECTHING DATA
+
+
+  const [Workout, setWorkout] = useState([]);
+
+  useEffect (() =>{
+    const db = getDatabase(app)
+    const dbRef = ref(db, 'data/Workout');
+    console.log("Receiving Data");
+    onValue(dbRef, (snapshot) =>{
+      let data = snapshot.val();
+      let dWorkout = Object.values(data)
+      setWorkout(dWorkout)
+      console.log("Console Log Set Data",  data)
+    })
+  }, [])
+
+  
+
+
+
+  
 
 
   return (
     <>
-    {/* {console.log(data)} */}
+    {/* {console.log(Workout)} */}
     <View style={{ margin: 30 }}>
       <View
         style={{ flexDirection: "row", alignItems: "center", marginTop: 30 }}
@@ -92,12 +103,12 @@ const AllWorkout = () => {
           All
         </Text>
       </View>
-
       <View style={{ marginTop: 30 }}>
         <FlatList
          style={{ borderColor: "#FFFFF",height: 550}}
          showsVerticalScrollIndicator={false}
-          data={dataWorkout}
+         data={Workout}
+         keyExtractor={(item) => item.key}
           renderItem={({ item }) => (
             <TouchableOpacity
               style={{
@@ -108,10 +119,10 @@ const AllWorkout = () => {
                 marginTop:20
                
               }}
-              onPress={item.goTo}
+              // onPress={Linking.openURL(item.videoURL)}
             >
               <ImageBackground
-                source={item.image}
+                source={{uri: item.imageURL}}
                 style={{ height: 170 }}
               ></ImageBackground>
 
@@ -124,7 +135,7 @@ const AllWorkout = () => {
                     flex: 1,
                   }}
                 >
-                  {item.judul}
+                  {item.title}
                 </Text>
 
                 <TouchableOpacity onPress={handlePress}>
@@ -143,6 +154,7 @@ const AllWorkout = () => {
            )}
         /> 
       </View>
+   
     </View>
 
     </>

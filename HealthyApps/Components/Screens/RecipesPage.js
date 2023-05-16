@@ -9,8 +9,9 @@ import {
   ScrollView,
   ImageBackground,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
+
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
 import Week1 from "../../assets/image/RecipesThisWeek1.png";
@@ -19,7 +20,20 @@ import BOD1 from "../../assets/image/BOD1.png";
 import BOD2 from "../../assets/image/BOD2.png";
 import BOD3 from "../../assets/image/BOD3.png";
 
-const RecipesPage = ({ item }) => {
+// IMPORT FETCHNG API
+import axios from "axios";
+import app from './config'
+
+// import firebase from 'firebase/compat/app'
+
+import {getDatabase, ref, onValue, get} from  'firebase/database';
+
+//---------------------------------
+
+
+const RecipesPage = () => {
+
+
   const [dataFoodCategory, setdataFoodCategory] = useState([
     {
       judul: "Breakfast",
@@ -35,49 +49,34 @@ const RecipesPage = ({ item }) => {
     },
   ]);
 
-  const [dataBOD, setDataBOD] = useState([
-    {
-      judul: "Shirataki Noodle Salad with Ginger Sesame",
-      time: "15m",
-      serve: "8 Servings",
-      image: require("../../assets/image/BOD1.png"),
-      rating: "Rating 5.0",
-      ingredients:
-        "1 8-ounce package, tofu shirataki noodles, spaghetti cut, ½ bell pepper diced, 1 cup sliced red cabbage, 1 cup chopped cucumber, 3 green onions diced, 1 (15-ounce) can chickpeas, rinsed, drained, 2 tablespoons chopped cilantro, 1 tablespoon sesame seeds",
-    },
-    {
-      judul: "Healthy Quinoa Salad With Light Honey Dressing",
-      time: "15m",
-      serve: "8 Servings",
-      image: require("../../assets/image/BOD2.png"),
-      rating: "Rating 5.0",
-      ingredients: "1/2 cup avocado oil (olive oil works great too), 1/4 cup red wine vinegar, 2 TBSP fresh chopped parsley, 2 cloves garlic minced, 1/2 tsp dried oregano leaves, 1/2 tsp dried basil leaves, 1/2 tsp sea salt, 1/4 tsp black pepper"
-    },
-    {
-      judul: "Garlic Brown Sugar Glazed Salmon",
-      time: "15m",
-      serve: "8 Servings",
-      image: require("../../assets/image/BOD3.png"),
-      rating: "Rating 5.0",
-      ingredients: "1/4 cup (50 g) brown sugar, packed 2 tablespoons dijon mustard, 4 (6 ounces) boneless salmon fillets, salt and ground black pepper to taste"
-     
-    },
-  ]);
+  const [dataBOD, setDataBOD] = useState([]);
 
-  const [dataThisWeek, setDataThisWeek] = useState([
-      {
-        judul: "Hot Egg Toast",
-        image: require("../../assets/image/RecipesThisWeek1.png"),
-        time: "20m",
-        ingredients: "6 egg, 5 chopped onion, 1/3 cup milk, 1 1/2 tablespoon ginger paste, 2 pinch powdered turmeric, 4 pinches salt, 10 bread slices, 6 peppercorns, 4 chopped green chilli, 1 tablespoon garlic paste, 2 piece cinnamon, 3 tablespoon virgin olive oil"
-      },
-      {
-        judul: "Whole-Grain Waffles",
-        image: require("../../assets/image/RecipesThisWeek2.png"),
-        time: "15m",
-        ingredients: "1 1/2 cups (170g) King Arthur White Whole Wheat Flour, 2 teaspoons baking powder, 1/2 teaspoon salt, 2 tablespoons (25g) granulated sugar, 1 large egg, 1 1/2 cups (340g) milk, lukewarm, 5 tablespoons (71g) butter, melted or 1/3 cup (67g) vegetable oil"
-      }
-  ]);
+  useEffect (() =>{
+    const db = getDatabase(app)
+    const dbRef = ref(db, 'data/recipes/recipesBOD');
+    console.log("Receiving Data");
+    onValue(dbRef, (snapshot) =>{
+      let data = snapshot.val();
+      let dRecipes = Object.values(data)
+      setDataBOD(dRecipes)
+      console.log("Console Log Set Data",  data)
+    })
+  }, [])
+
+
+  const [dataThisWeek, setDataThisWeek] = useState([]);
+
+  useEffect (() =>{
+    const db = getDatabase(app)
+    const dbRef = ref(db, 'data/recipes/recipesThisWeek');
+    console.log("Receiving Data");
+    onValue(dbRef, (snapshot) =>{
+      let data = snapshot.val();
+      let dRecipes = Object.values(data)
+      setDataThisWeek(dRecipes)
+      console.log("Console Log Set Data",  data)
+    })
+  }, [])
 
   const navigation = useNavigation();
 
@@ -131,6 +130,7 @@ const RecipesPage = ({ item }) => {
               style={{ borderColor: "#FFFFF",marginRight:1, }}
               showsHorizontalScrollIndicator={false}
               data={dataThisWeek}
+              keyExtractor={(item) => item.key}
               renderItem={({ item }) => (
               <View style={{ flexDirection: "row", marginRight: 1 }}>
                 <TouchableOpacity
@@ -153,8 +153,8 @@ const RecipesPage = ({ item }) => {
                       alignItems: "center",
                     }}
                   >
-                    <Image source={item.image} style={{ width: 60, height: 60, borderRadius:100 }} />
-                    <Text style={{ marginLeft: 8 }}>{item.judul}</Text>
+                    <Image source={{uri: item.image}} style={{ width: 60, height: 60, borderRadius:100 }} />
+                    <Text style={{ marginLeft: 8 }}>{item.title}</Text>
                   </View>
                 </TouchableOpacity>
             
@@ -192,6 +192,7 @@ const RecipesPage = ({ item }) => {
               style={{ borderColor: "#FFFFF",marginRight:12, }}
               showsHorizontalScrollIndicator={false}
               data={dataBOD}
+              keyExtractor={(item) => item.key}
               renderItem={({ item }) => (
                 <View style={{ flexDirection: "row", marginRight: 25 }}>
                   <TouchableOpacity
@@ -208,7 +209,7 @@ const RecipesPage = ({ item }) => {
                   >
                     <View style={{ flexDirection: "column", width: 117 }}>
                       <Image
-                        source={item.image}
+                        source={{uri: item.image}}
                         style={{
                           width: 145,
                           height: 150,
@@ -218,7 +219,7 @@ const RecipesPage = ({ item }) => {
                         }}
                       />
                       <Text style={{ marginLeft: -20, marginTop: 10 }}>
-                        {item.judul}
+                        {item.title}
                       </Text>
                       <View
                         style={{

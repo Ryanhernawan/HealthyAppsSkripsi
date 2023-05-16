@@ -87,7 +87,7 @@ const RegisterScreen = () => {
         setValue={setConfirmPassword}
         secureTextEntry
       />
-
+{/* 
       <Text style={styles.labelPassword} > Gender:</Text>
 
       <View style={{ flexDirection: "row", alignItems: "center", marginTop:16, marginLeft:16}}>
@@ -107,7 +107,7 @@ const RegisterScreen = () => {
           />
           <Text>Female</Text>
         </View>
-      </View>
+      </View> */}
 
       <CustomButton text="Sign Up" onpress={validateRegister} />
     </View>

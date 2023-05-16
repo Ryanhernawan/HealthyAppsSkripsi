@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect  } from "react";
 import {
   View,
   Text,
@@ -10,9 +10,22 @@ import {
   ScrollView,
   ImageBackground,
 } from "react-native";
+
 import { useNavigation } from "@react-navigation/native";
 import Profile from "../../assets/image/ProfilePic.png";
 import BodyShapper from "../../assets/image/BODYSHAPER.jpg"
+
+// IMPORT FETCHNG API
+import axios from "axios";
+import app from './config';
+
+// import {db} from './config'
+import firebase from 'firebase/compat/app'
+
+import {getDatabase, ref, onValue, get} from  'firebase/database';
+
+// -------------------------
+
 
 const HomePage = () => {
   const navigation = useNavigation();
@@ -21,23 +34,7 @@ const HomePage = () => {
     navigation.navigate("Workout");
   };
 
-  const [dataRecomendWO, setRecomendWO] = useState([
-    {
-      judul: "Walking Cardio",
-      time: "15 Min",
-      image: require("../../assets/image/Cardio.jpeg"),
-    },
-    {
-      judul: "Intermediate Cardio Workout",
-      time: "15 Min",
-      image: require("../../assets/image/Cardio.jpg"),
-    },
-    {
-      judul: "Body Shaper",
-      time: "15 Min",
-      image: require("../../assets/image/BODYSHAPER.jpg"),
-    },
-  ]);
+  const [dataRecomendWO, setRecomendWO] = useState([]);
 
   const [dataFoodCategory, setdataFoodCategory] = useState([
     {
@@ -69,6 +66,18 @@ const HomePage = () => {
     },
   ]);
 
+  useEffect (() =>{
+    const db = getDatabase(app)
+    const dbRef = ref(db, 'data/Workout/recomendationWorkout');
+    console.log("Receiving Data");
+    onValue(dbRef, (snapshot) =>{
+      let data = snapshot.val();
+      let dWorkout = Object.values(data)
+      setRecomendWO(dWorkout)
+      console.log("Console Log Set Data",  data)
+    })
+  }, [])
+
   return (
     <ScrollView>
       <View style={styles.container}>
@@ -91,9 +100,9 @@ const HomePage = () => {
           >
             Recomendation Workout
           </Text>
-          <TouchableOpacity onPress={goToWorkout}>
+          {/* <TouchableOpacity onPress={goToWorkout}>
             <Text style={{ marginTop: 30, marginRight: 16 }}>See More</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
 
         <View style={{ marginLeft: 16, marginTop: 20 }}>
@@ -102,16 +111,17 @@ const HomePage = () => {
             style={{ borderColor: "#FFFFF" }}
             showsHorizontalScrollIndicator={false}
             data={dataRecomendWO}
+            keyExtractor={(item) => item.key}
             renderItem={({ item }) => (
               <TouchableOpacity
                 style={{ width: 160, elevation: 1, padding: 10 }}
               >
                 <Image
-                  source={item.image}
+                  source={{uri: item.imageURL}}
                   style={{ borderRadius: 10, width: 140, height: 80 }}
                 />
                 <Text style={{ marginTop: 10, fontWeight: "bold" }}>
-                  {item.judul}
+                  {item.title}
                 </Text>
                 <Text style={{ marginTop: 5 }}>{item.time}</Text>
               </TouchableOpacity>
