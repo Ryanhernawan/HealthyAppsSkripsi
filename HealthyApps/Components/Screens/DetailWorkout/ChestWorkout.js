@@ -18,6 +18,17 @@ import {
 
   import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
   import { Link, useNavigation } from "@react-navigation/native";
+  
+  // IMPORT FETCHNG API
+  import axios from "axios";
+  import app from '../config'
+
+  // import {db} from './config'
+  import firebase from 'firebase/compat/app'
+
+  import {getDatabase, ref, onValue} from  'firebase/database';
+
+  // --------------
 
 
 const ChestWorkout = () => {
@@ -44,32 +55,26 @@ const ChestWorkout = () => {
 
   const [isLiked, setIsLiked] = useState(false);
 
+  // FECTHING DATA
+  const [dataWorkout, setDataWorkout] = useState([]);
+  const linkingURL = (item) => {
+    Linking.openURL(item.videoURL)
+  };
 
-const [dataWorkout, setDataWorkout] = useState([
-    {
-      judul: "15 Minutes Dumbell Chest At Home",
-      level: "Beginner",
-      time: "15 m",
-      image: require("../../../assets/image/ChestWorkout/Chest1.webp"),
-      goTo: goToVidio1
-    },
-    {
-      judul: "Most Effective CHEST Workout at HOME",
-      level: "Intermediate",
-      time: "13 m",
-      image: require("../../../assets/image/ChestWorkout/Chest2.webp"),
-      goTo: goToVidio2
-    },
-    {
-      judul: "Home Chest Workout",
-      level: "Beginner",
-      time: "10 m",
-      image: require("../../../assets/image/ChestWorkout/Chest3.webp"),
-      goTo: goToVidio3
 
-    },
-  ]);
+  useEffect (() =>{
+    const db = getDatabase(app)
+    const dbRef = ref(db, 'data/Workout/categoryWorkout/CHEST');
+    console.log("Receiving Data");
+    onValue(dbRef, (snapshot) =>{
+      let data = snapshot.val();
+      let dWorkout = Object.values(data)
+      setDataWorkout(dWorkout)
+      console.log("Console Log Set Data",  data)
+    })
+  }, [])
 
+  // ----------------------
 
   return (
     <>
@@ -111,10 +116,10 @@ const [dataWorkout, setDataWorkout] = useState([
                 marginTop:20
                
               }}
-              onPress={item.goTo}
+              onPress={() => linkingURL(item)}
             >
               <ImageBackground
-                source={item.image}
+                source={{uri: item.imageURL}}
                 style={{ height: 170 }}
               ></ImageBackground>
 
@@ -127,7 +132,7 @@ const [dataWorkout, setDataWorkout] = useState([
                     flex: 1,
                   }}
                 >
-                  {item.judul}
+                  {item.title}
                 </Text>
 
                 <TouchableOpacity onPress={handlePress}>

@@ -10,13 +10,26 @@ import {
     ImageBackground,
     Linking,
   } from "react-native";
-  import React, { useState } from "react";
+  import React, { useState, useEffect } from "react";
+
   import WO1 from "../../../assets/image/AbsWorkout/Abs1.webp";
   import WO2 from "../../../assets/image/AbsWorkout/Abs2.webp";
   import WO3 from "../../../assets/image/AbsWorkout/Abs3.webp";
   
   import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
   import { Link, useNavigation } from "@react-navigation/native";
+  
+  // IMPORT FETCHNG API
+  import axios from "axios";
+  import app from '../config'
+
+  // import {db} from './config'
+  import firebase from 'firebase/compat/app'
+
+  import {getDatabase, ref, onValue} from  'firebase/database';
+
+  // --------------
+
   
   const ArmsWorkout = () => {
     const navigation = useNavigation();
@@ -40,31 +53,28 @@ import {
     const handlePress = () => {
       setIsLiked(!isLiked);
     };
+
+    // FETCHING DATA
   
-    const [dataWorkout, setDataWorkout] = useState([
-      {
-        judul: "15 Minute Arm Burnout",
-        level: "Beginner",
-        time: "15 m",
-        image: require("../../../assets/image/ArmsWorkout/Arms1.webp"),
-        goTo: goToVidio1
-      },
-      {
-        judul: "Get Bigger Arms In 30 Days",
-        level: "Intermediate",
-        time: "5 m",
-        image: require("../../../assets/image/ArmsWorkout/Arms2.webp"),
-        goTo: goToVidio2
-      },
-      {
-        judul: "5 MIN TONED ARMS WORKOUT",
-        level: "Beginner",
-        time: "5 m",
-        image: require("../../../assets/image/ArmsWorkout/Arms3.webp"),
-        goTo: goToVidio3
+    const [dataWorkout, setDataWorkout] = useState([]);
+    const linkingURL = (item) => {
+      Linking.openURL(item.videoURL)
+    };
   
-      },
-    ]);
+  
+    useEffect (() =>{
+      const db = getDatabase(app)
+      const dbRef = ref(db, 'data/Workout/categoryWorkout/ARMS');
+      console.log("Receiving Data");
+      onValue(dbRef, (snapshot) =>{
+        let data = snapshot.val();
+        let dWorkout = Object.values(data)
+        setDataWorkout(dWorkout)
+        console.log("Console Log Set Data",  data)
+      })
+    }, [])
+  
+    // ----------------------
   
     return (
       // <ScrollView>
@@ -105,10 +115,10 @@ import {
                   marginTop:20
                  
                 }}
-                onPress={item.goTo}
+                onPress={() => linkingURL(item)}
               >
                 <ImageBackground
-                  source={item.image}
+                  source={{uri: item.imageURL}}
                   style={{ height: 170 }}
                 ></ImageBackground>
   
@@ -121,7 +131,7 @@ import {
                       flex: 1,
                     }}
                   >
-                    {item.judul}
+                    {item.title}
                   </Text>
   
                   <TouchableOpacity onPress={handlePress}>

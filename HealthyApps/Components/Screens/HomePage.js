@@ -30,8 +30,8 @@ import {getDatabase, ref, onValue, get} from  'firebase/database';
 const HomePage = () => {
   const navigation = useNavigation();
 
-  const goToWorkout = () => {
-    navigation.navigate("Workout");
+  const goToBreakfast = () => {
+    navigation.navigate("Breakfast");
   };
 
   const [dataRecomendWO, setRecomendWO] = useState([]);
@@ -40,6 +40,7 @@ const HomePage = () => {
     {
       judul: "Breakfast",
       image: require("../../assets/image/breakfast.png"),
+      goTo : goToBreakfast
     },
     {
       judul: "Lunch",
@@ -154,6 +155,7 @@ const HomePage = () => {
             renderItem={({ item }) => (
               <TouchableOpacity
                 style={{ width: 160, elevation: 1, padding: 10 }}
+                onPress={item.goTo}
               >
                 <Image
                   source={item.image}
@@ -178,11 +180,11 @@ const HomePage = () => {
               flex: 1,
             }}
           >
-            Healthy Life Story
+            Article
           </Text>
-          <TouchableOpacity>
+          {/* <TouchableOpacity>
             <Text style={{ marginTop: 30, marginRight: 16 }}>See More</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
 
         <View style={{ marginLeft: 16, marginTop: 20 }}>

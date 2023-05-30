@@ -18,7 +18,19 @@ import WO3 from "../../../assets/image/AbsWorkout/Abs3.webp";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { Link, useNavigation } from "@react-navigation/native";
 
-const AbsWorkout = () => {
+// IMPORT FETCHNG API
+import axios from "axios";
+import app from '../config'
+
+import firebase from 'firebase/compat/app'
+
+import {getDatabase, ref, onValue} from  'firebase/database';
+
+// --------------
+
+
+
+const ButtWorkout = () => {
   const navigation = useNavigation();
 
   const goToWorkout = () => {
@@ -42,31 +54,26 @@ const AbsWorkout = () => {
   const [isLiked, setIsLiked] = useState(false);
 
 
+  // FETCHING DATA
+  const [dataWorkout, setDataWorkout] = useState([]);
+  const linkingURL = (item) => {
+    Linking.openURL(item.videoURL)
+  };
 
-  const [dataWorkout, setDataWorkout] = useState([
-    {
-      judul: "15 min BOOTY BURN",
-      level: "Beginner",
-      time: "17 m",
-      image: require("../../../assets/image/ButtWorkout/Butt1.webp"),
-      goTo: goToVidio1
-    },
-    {
-      judul: "10 BEST EXERCISES TO START GROWING YOUR BOOTY",
-      level: "Intermediate",
-      time: "12 m",
-      image: require("../../../assets/image/ButtWorkout/Butt2.webp"),
-      goTo: goToVidio2
-    },
-    {
-      judul: "10 MIN GLUTE WORKOUT: Work Your Booty with No Equipment",
-      level: "Advance",
-      time: "15 m",
-      image: require("../../../assets/image/ButtWorkout/Butt3.webp"),
-      goTo: goToVidio3
 
-    },
-  ]);
+  useEffect (() =>{
+    const db = getDatabase(app)
+    const dbRef = ref(db, 'data/Workout/categoryWorkout/BUTT');
+    console.log("Receiving Data");
+    onValue(dbRef, (snapshot) =>{
+      let data = snapshot.val();
+      let dWorkout = Object.values(data)
+      setDataWorkout(dWorkout)
+      console.log("Console Log Set Data",  data)
+    })
+  }, [])
+
+  // ----------------------
 
   return (
    
@@ -109,10 +116,10 @@ const AbsWorkout = () => {
                 marginTop:20
                
               }}
-              onPress={item.goTo}
+              onPress={() => linkingURL(item)}
             >
               <ImageBackground
-                source={item.image}
+                source={{uri: item.imageURL}}
                 style={{ height: 170 }}
               ></ImageBackground>
 
@@ -125,7 +132,7 @@ const AbsWorkout = () => {
                     flex: 1,
                   }}
                 >
-                  {item.judul}
+                  {item.title}
                 </Text>
 
                 <TouchableOpacity onPress={handlePress}>
@@ -150,4 +157,4 @@ const AbsWorkout = () => {
   );
 };
 
-export default AbsWorkout;
+export default ButtWorkout;

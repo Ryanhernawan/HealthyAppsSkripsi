@@ -14,10 +14,15 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 import { Link, useNavigation } from "@react-navigation/native";
 
 const DetailRecipes = ({ route }) => {
+   const goToBreakfast = () => {
+    navigation.navigate("Breakfast")
+   }
+
   const [dataFoodCategory, setdataFoodCategory] = useState([
     {
       judul: "Breakfast",
       image: require("../../../assets/image/breakfast.png"),
+      goTo : goToBreakfast
     },
     {
       judul: "Lunch",
@@ -145,6 +150,7 @@ const DetailRecipes = ({ route }) => {
               renderItem={({ item }) => (
                 <TouchableOpacity
                   style={{ width: 160, elevation: 1, padding: 10 }}
+                  onPress={item.goTo}
                 >
                   <Image
                     source={item.image}

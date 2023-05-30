@@ -17,8 +17,19 @@ import {
   
   import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
   import { Link, useNavigation } from "@react-navigation/native";
-  
-  const AbsWorkout = () => {
+
+  // IMPORT FETCHNG API
+  import axios from "axios";
+  import app from '../config'
+
+  // import {db} from './config'
+  import firebase from 'firebase/compat/app'
+
+  import {getDatabase, ref, onValue} from  'firebase/database';
+
+  // --------------
+
+  const LegsWorkout = () => {
     const navigation = useNavigation();
   
     const goToWorkout = () => {
@@ -42,31 +53,27 @@ import {
     const [isLiked, setIsLiked] = useState(false);
   
   
+    // FECTHING DATA
+
+    const [dataWorkout, setDataWorkout] = useState([]);
+    const linkingURL = (item) => {
+      Linking.openURL(item.videoURL)
+    };
   
-    const [dataWorkout, setDataWorkout] = useState([
-      {
-        judul: "20 Min Complete Home Leg Workout",
-        level: "Beginner",
-        time: "20 m",
-        image: require("../../../assets/image/LegsWorkout/Legs1.webp"),
-        goTo: goToVidio1
-      },
-      {
-        judul: "15 Min Complete Home Leg Workout",
-        level: "Intermediate",
-        time: "15 m",
-        image: require("../../../assets/image/LegsWorkout/Legs2.webp"),
-        goTo: goToVidio2
-      },
-      {
-        judul: "SLIM LEGS IN 20 DAYS",
-        level: "Advance",
-        time: "11 m",
-        image: require("../../../assets/image/LegsWorkout/Legs3.webp"),
-        goTo: goToVidio3
   
-      },
-    ]);
+    useEffect (() =>{
+      const db = getDatabase(app)
+      const dbRef = ref(db, 'data/Workout/categoryWorkout/LEGS');
+      console.log("Receiving Data");
+      onValue(dbRef, (snapshot) =>{
+        let data = snapshot.val();
+        let dWorkout = Object.values(data)
+        setDataWorkout(dWorkout)
+        console.log("Console Log Set Data",  data)
+      })
+    }, [])
+  
+    // ----------------------
   
     return (
      
@@ -109,10 +116,10 @@ import {
                   marginTop:20
                  
                 }}
-                onPress={item.goTo}
+                onPress={() => linkingURL(item)}
               >
                 <ImageBackground
-                  source={item.image}
+                  source={{uri: item.imageURL}}
                   style={{ height: 170 }}
                 ></ImageBackground>
   
@@ -125,7 +132,7 @@ import {
                       flex: 1,
                     }}
                   >
-                    {item.judul}
+                    {item.title}
                   </Text>
   
                   <TouchableOpacity onPress={handlePress}>
@@ -150,5 +157,5 @@ import {
     );
   };
   
-  export default AbsWorkout;
+  export default LegsWorkout;
   

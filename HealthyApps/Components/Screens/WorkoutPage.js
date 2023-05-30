@@ -133,7 +133,7 @@ const WorkoutPage = () => {
             <Text style={{ textAlign: "center" }}>All</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity
+          {/* <TouchableOpacity
             style={{
               backgroundColor: "#E2E8F0",
               width: 90,
@@ -145,10 +145,7 @@ const WorkoutPage = () => {
             onPress={goToFavoriteWorkout}
           >
             <Text style={{ textAlign: "center" }}>My Favorite</Text>
-          </TouchableOpacity>
-        </View>
-
-        <View style={{ flexDirection: "row" }}>
+          </TouchableOpacity> */}
           <TouchableOpacity
             style={{
               backgroundColor: "#E2E8F0",
@@ -156,6 +153,7 @@ const WorkoutPage = () => {
               height: 20,
               marginTop: 10,
               borderRadius: 4,
+              marginLeft: 10,
             }}
             onPress={goToBeginnerWorkout}
           >
@@ -189,6 +187,10 @@ const WorkoutPage = () => {
           >
             <Text style={{ textAlign: "center" }}>Advance</Text>
           </TouchableOpacity>
+        </View>
+
+        <View style={{ flexDirection: "row" }}>
+          
         </View>
 
         {/* TRANDING WORKOUT SECTION */}

@@ -231,7 +231,7 @@ const RecipesPage = () => {
                         <Text>{item.time}</Text>
                         <Text style={{ marginLeft: 11 }}>{item.serve}</Text>
                       </View>
-                      <Text
+                      {/* <Text
                         style={{
                           marginLeft: -20,
                           marginTop: 10,
@@ -239,7 +239,7 @@ const RecipesPage = () => {
                         }}
                       >
                         {item.rating}
-                      </Text>
+                      </Text> */}
                     </View>
                   </TouchableOpacity>
                 </View>
@@ -254,7 +254,7 @@ const RecipesPage = () => {
           style={{
             flexDirection: "row",
             alignItems: "center",
-            marginTop: -130,
+            marginTop: -150,
           }}
         >
           <Text
@@ -267,9 +267,9 @@ const RecipesPage = () => {
           >
             Healthy Food Category
           </Text>
-          <TouchableOpacity>
+          {/* <TouchableOpacity>
             <Text style={{ marginTop: 30, marginRight: 16 }}>See More</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
 
         <View style={{ marginLeft: 16, marginTop: 20 }}>

@@ -18,7 +18,6 @@ import WO3 from "../../../assets/image/AbsWorkout/Abs3.webp";
 
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { Link, useNavigation } from "@react-navigation/native";
-import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry";
 
 // IMPORT FETCHNG API
 import axios from "axios";
@@ -30,6 +29,7 @@ import firebase from 'firebase/compat/app'
 import {getDatabase, ref, onValue} from  'firebase/database';
 
 // --------------
+import Video from 'react-native-video';
 
 
 
@@ -111,12 +111,13 @@ const AbsWorkout = () => {
                   overflow: "hidden",
                   marginTop: 20,
                 }}
-                onPress={() => linkingURL(item)}
+                // onPress={() => linkingURL(item)}
               >
-                <ImageBackground
+                {/* <ImageBackground
                   source={{uri: item.imageURL}}
                   style={{ height: 170 }}
-                ></ImageBackground>
+                ></ImageBackground> */}
+             
 
                 <View style={{ flexDirection: "row" }}>
                   <Text

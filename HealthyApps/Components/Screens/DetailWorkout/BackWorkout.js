@@ -55,30 +55,25 @@ const BackWorkout = () => {
       const [isLiked, setIsLiked] = useState(false);
     
 
-    const [dataWorkout, setDataWorkout] = useState([
-        {
-          judul: "BACK WORKOUT AT HOME",
-          level: "Beginner",
-          time: "15 m",
-          image: require("../../../assets/image/BackWorkout/Back1.webp"),
-          goTo: goToVidio1
-        },
-        {
-          judul: "20 Minute Dumbbell Back and Biceps",
-          level: "Intermediate",
-          time: "20 m",
-          image: require("../../../assets/image/BackWorkout/Back2.webp"),
-          goTo: goToVidio2
-        },
-        {
-          judul: "At Home Back Workout",
-          level: "Beginner",
-          time: "7 m",
-          image: require("../../../assets/image/BackWorkout/Back3.webp"),
-          goTo: goToVidio3
-    
-        },
-      ]);
+      // FETCHING DATA
+
+    const [dataWorkout, setDataWorkout] = useState([]);
+
+    const linkingURL = (item) => {
+      Linking.openURL(item.videoURL)
+    }
+
+    useEffect (() =>{
+      const db = getDatabase(app)
+      const dbRef = ref(db, 'data/Workout/categoryWorkout/BACK');
+      console.log("Receiving Data");
+      onValue(dbRef, (snapshot) =>{
+        let data = snapshot.val();
+        let dWorkout = Object.values(data)
+        setDataWorkout(dWorkout)
+        console.log("Console Log Set Data",  data)
+      })
+    }, [])
 
   return (
     <>
@@ -120,10 +115,10 @@ const BackWorkout = () => {
                 marginTop:20
                
               }}
-              onPress={item.goTo}
+              onPress={() => linkingURL(item)}
             >
               <ImageBackground
-                source={item.image}
+                source={{uri: item.imageURL}}
                 style={{ height: 170 }}
               ></ImageBackground>
 
@@ -136,16 +131,16 @@ const BackWorkout = () => {
                     flex: 1,
                   }}
                 >
-                  {item.judul}
+                  {item.title}
                 </Text>
 
-                <TouchableOpacity onPress={handlePress}>
+                {/* <TouchableOpacity onPress={handlePress}>
                   <MaterialCommunityIcons
                     name="heart"
                     size={30}
                     style={{ marginRight: 10 }}
                   />
-                </TouchableOpacity>
+                </TouchableOpacity> */}
               </View>
               <View style={{ flexDirection: "row", marginBottom: 16 }}>
                 <Text style={{ marginTop: 4, marginLeft: 10 }}>{item.level}</Text>

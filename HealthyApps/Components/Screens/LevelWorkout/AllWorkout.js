@@ -22,7 +22,7 @@ import app from '../config'
 // import {db} from './config'
 import firebase from 'firebase/compat/app'
 
-import {getDatabase, ref, onValue, get} from  'firebase/database';
+import {getDatabase, ref, onValue, set} from  'firebase/database';
 
 // -------------------------
 
@@ -60,15 +60,20 @@ const AllWorkout =  () => {
 
   const [Workout, setWorkout] = useState([]);
 
+  const linkingURL = (item) => {
+    Linking.openURL(item.videoURL)
+  };
+
   useEffect (() =>{
     const db = getDatabase(app)
-    const dbRef = ref(db, 'data/Workout');
+    const dbRef = ref(db, 'data/Workout/AllWorkout');
     console.log("Receiving Data");
     onValue(dbRef, (snapshot) =>{
       let data = snapshot.val();
       let dWorkout = Object.values(data)
       setWorkout(dWorkout)
       console.log("Console Log Set Data",  data)
+     
     })
   }, [])
 
@@ -119,7 +124,7 @@ const AllWorkout =  () => {
                 marginTop:20
                
               }}
-              // onPress={Linking.openURL(item.videoURL)}
+              onPress={() => linkingURL(item)}
             >
               <ImageBackground
                 source={{uri: item.imageURL}}

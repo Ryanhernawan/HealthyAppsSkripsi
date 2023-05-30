@@ -29,6 +29,9 @@ import BeginnerWorkout from "./Screens/LevelWorkout/BeginnerWorkout";
 import AdvanceWorkout from "./Screens/LevelWorkout/AdvanceWorkout";
 import IntermediateWorkout from "./Screens/LevelWorkout/IntermediateWorkout";
 
+// IMPORT CATEGORY RECIPES
+import Breakfast from "./Screens/RecipesCategory/Breakfast";
+
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -254,6 +257,17 @@ export default function Navigation() {
             headerShown: false,
           }}
         />
+
+        {/* CATEGORY RECIPES */}
+        <Stack.Screen
+          name="Breakfast"
+          component={Breakfast}
+          options={{
+            headerShown: false,
+          }}
+        />
+
+        {/* CATEGORY RECIPES END */}
 
       </Stack.Navigator>  
     </NavigationContainer>
