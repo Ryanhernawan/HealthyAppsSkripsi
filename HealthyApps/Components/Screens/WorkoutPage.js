@@ -9,7 +9,8 @@ import {
   ScrollView,
   ImageBackground,
   Linking,
-  Button
+  Button,
+  LogBox
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import { WebView } from 'react-native-webview';
@@ -110,6 +111,9 @@ const WorkoutPage = () => {
       let dWorkout = Object.values(data);
       setTranding(dWorkout);
       console.log("Console Log Set Data", data);
+      LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
+      LogBox.ignoreLogs(['Each Child']);
+
     });
   }, []);
 
@@ -247,7 +251,7 @@ const WorkoutPage = () => {
                         name="play-circle"
                         size={40}
                         style={{ marginRight: 10 }}
-                        onPress={() => linkingURL(item)}
+                        onPress={() => navigation.navigate("DetailWO", { data: item })}
                       />
                     </TouchableOpacity>
                   </View>

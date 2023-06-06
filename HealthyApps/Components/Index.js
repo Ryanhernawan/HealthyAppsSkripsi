@@ -11,8 +11,8 @@ import Workout from "./Screens/WorkoutPage";
 import Recipes from "./Screens/RecipesPage";
 import Forum from "./Screens/ForumPage";
 import Profile from "./Screens/ProfilePage";
-import DetailRecipes from  "./Screens/DetailRecipes/DetailRecipes";
-
+import DetailRecipes from "./Screens/DetailRecipes/DetailRecipes";
+import DetailArticle from "./Screens/DetailArticle/DetailArticle";
 
 // IMPORT DETAIL WOKROUT
 import ChestWO from "./Screens/DetailWorkout/ChestWorkout";
@@ -21,6 +21,7 @@ import BackWO from "./Screens/DetailWorkout/BackWorkout";
 import ArmsWO from "./Screens/DetailWorkout/ArmsWorkout";
 import LegsWO from "./Screens/DetailWorkout/LegsWorkout";
 import ButtWO from "./Screens/DetailWorkout/ButtWorkout";
+import DetailWO from "./Screens/DetailWorkout/DetailWorkout";
 
 // IMPORT LEVEL WORKOUT
 import AllWorkout from "./Screens/LevelWorkout/AllWorkout";
@@ -31,7 +32,11 @@ import IntermediateWorkout from "./Screens/LevelWorkout/IntermediateWorkout";
 
 // IMPORT CATEGORY RECIPES
 import Breakfast from "./Screens/RecipesCategory/Breakfast";
+import Lunch from "./Screens/RecipesCategory/Lunch";
+import Dinner from "./Screens/RecipesCategory/Dinner";
+import WatchRecipes from "./Screens/DetailRecipes/WatchRecipes";
 
+import DetailProfile from "./Screens/DetailProfile/DetailProfile";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -70,7 +75,11 @@ function BottomNavigation() {
         options={{
           title: "Recipes",
           tabBarIcon: ({ size, color }) => (
-            <MaterialCommunityIcons name="book-open-blank-variant" size={size} color={color} />
+            <MaterialCommunityIcons
+              name="book-open-blank-variant"
+              size={size}
+              color={color}
+            />
           ),
         }}
       ></Tab.Screen>
@@ -96,9 +105,6 @@ function BottomNavigation() {
           ),
         }}
       ></Tab.Screen>
-
-      
-      
     </Tab.Navigator>
   );
 }
@@ -180,7 +186,7 @@ export default function Navigation() {
           options={{
             headerShown: false,
           }}
-        /> 
+        />
 
         <Stack.Screen
           name="Arms"
@@ -189,28 +195,44 @@ export default function Navigation() {
             headerShown: false,
           }}
         />
-        
+
         <Stack.Screen
           name="Legs"
           component={LegsWO}
           options={{
             headerShown: false,
           }}
-        />     
-        
+        />
+
         <Stack.Screen
           name="Butt"
           component={ButtWO}
           options={{
             headerShown: false,
           }}
-        />    
+        />
+
+        <Stack.Screen
+          name="DetailWO"
+          component={DetailWO}
+          options={{
+            headerShown: false,
+          }}
+        />
 
         {/* DETAIL WORKOUT END */}
 
         <Stack.Screen
           name="DetailRecipes"
           component={DetailRecipes}
+          options={{
+            headerShown: false,
+          }}
+        />
+
+        <Stack.Screen
+          name="DetailArticle"
+          component={DetailArticle}
           options={{
             headerShown: false,
           }}
@@ -234,7 +256,7 @@ export default function Navigation() {
           }}
         />
 
-         <Stack.Screen
+        <Stack.Screen
           name="BeginnerWorkout"
           component={BeginnerWorkout}
           options={{
@@ -250,7 +272,7 @@ export default function Navigation() {
           }}
         />
 
-         <Stack.Screen
+        <Stack.Screen
           name="IntermediateWorkout"
           component={IntermediateWorkout}
           options={{
@@ -267,9 +289,40 @@ export default function Navigation() {
           }}
         />
 
+        <Stack.Screen
+          name="Lunch"
+          component={Lunch}
+          options={{
+            headerShown: false,
+          }}
+        />
+
+        <Stack.Screen
+          name="Dinner"
+          component={Dinner}
+          options={{
+            headerShown: false,
+          }}
+        />
+         <Stack.Screen
+          name="WatchRecipes"
+          component={WatchRecipes}
+          options={{
+            headerShown: false,
+          }}
+        />
+        
+
         {/* CATEGORY RECIPES END */}
 
-      </Stack.Navigator>  
+        <Stack.Screen
+          name="DetailProfile"
+          component={DetailProfile}
+          options={{
+            title: "Edit Profile",
+          }}
+        />
+      </Stack.Navigator>
     </NavigationContainer>
   );
 }

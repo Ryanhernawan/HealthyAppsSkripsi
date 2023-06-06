@@ -116,7 +116,8 @@ import {
                   marginTop:20
                  
                 }}
-                onPress={() => linkingURL(item)}
+                onPress={() => navigation.navigate("DetailWO", { data: item })}
+                // onPress={() => linkingURL(item)}
               >
                 <ImageBackground
                   source={{uri: item.imageURL}}

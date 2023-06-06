@@ -21,18 +21,18 @@ import { Link, useNavigation } from "@react-navigation/native";
 
 // IMPORT FETCHNG API
 import axios from "axios";
-import app from '../config'
+import app from "../config";
 
 // import {db} from './config'
-import firebase from 'firebase/compat/app'
+import firebase from "firebase/compat/app";
 
-import {getDatabase, ref, onValue} from  'firebase/database';
+import { getDatabase, ref, onValue } from "firebase/database";
 
 // --------------
-import Video from 'react-native-video';
+import Video from "react-native-video";
+import { WebView } from "react-native-webview";
 
-
-
+import YoutubePlayer from "react-native-youtube-iframe";
 
 const AbsWorkout = () => {
   const navigation = useNavigation();
@@ -41,33 +41,35 @@ const AbsWorkout = () => {
     navigation.navigate("Workout");
   };
 
+  const goToDetail = () => {
+    navigation.navigate("DetailWO");
+  };
+
   const handlePress = () => {
     setIsLiked(!isLiked);
   };
 
   const [isLiked, setIsLiked] = useState(false);
 
-
   // FECTHING DATA
 
   const [dataWorkout, setDataWorkout] = useState([]);
 
   const linkingURL = (item) => {
-    Linking.openURL(item.videoURL)
+    Linking.openURL(item.videoURL);
   };
 
-
-  useEffect (() =>{
-    const db = getDatabase(app)
-    const dbRef = ref(db, 'data/Workout/categoryWorkout/ABS');
+  useEffect(() => {
+    const db = getDatabase(app);
+    const dbRef = ref(db, "data/Workout/categoryWorkout/ABS");
     console.log("Receiving Data");
-    onValue(dbRef, (snapshot) =>{
+    onValue(dbRef, (snapshot) => {
       let data = snapshot.val();
-      let dWorkout = Object.values(data)
-      setDataWorkout(dWorkout)
-      console.log("Console Log Set Data",  data)
-    })
-  }, [])
+      let dWorkout = Object.values(data);
+      setDataWorkout(dWorkout);
+      console.log("Console Log Set Data", data);
+    });
+  }, []);
 
   // ----------------------
 
@@ -111,13 +113,13 @@ const AbsWorkout = () => {
                   overflow: "hidden",
                   marginTop: 20,
                 }}
+                onPress={() => navigation.navigate("DetailWO", { data: item })}
                 // onPress={() => linkingURL(item)}
               >
-                {/* <ImageBackground
-                  source={{uri: item.imageURL}}
+                <ImageBackground
+                  source={{ uri: item.imageURL }}
                   style={{ height: 170 }}
-                ></ImageBackground> */}
-             
+                ></ImageBackground>
 
                 <View style={{ flexDirection: "row" }}>
                   <Text

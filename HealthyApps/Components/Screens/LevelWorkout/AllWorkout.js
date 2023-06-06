@@ -78,12 +78,6 @@ const AllWorkout =  () => {
   }, [])
 
   
-
-
-
-  
-
-
   return (
     <>
     {/* {console.log(Workout)} */}
@@ -124,7 +118,7 @@ const AllWorkout =  () => {
                 marginTop:20
                
               }}
-              onPress={() => linkingURL(item)}
+              onPress={() => navigation.navigate("DetailWO", { data: item })}
             >
               <ImageBackground
                 source={{uri: item.imageURL}}

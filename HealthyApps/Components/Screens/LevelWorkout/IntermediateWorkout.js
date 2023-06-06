@@ -114,7 +114,7 @@ const IntermediateWorkout = () => {
                 marginTop:20
                
               }}
-              onPress={() => linkingURL(item)}
+              onPress={() => navigation.navigate("DetailWO", { data: item })}
             >
               <ImageBackground
                 source={{uri: item.imageURL}}

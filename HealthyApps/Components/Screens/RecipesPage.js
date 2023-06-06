@@ -33,19 +33,36 @@ import {getDatabase, ref, onValue, get} from  'firebase/database';
 
 const RecipesPage = () => {
 
+  const navigation = useNavigation();
+
+
+  const goToBreakfast = () => {
+    navigation.navigate("Breakfast");
+  };
+
+  const goToLunch = () => {
+    navigation.navigate("Lunch");
+  };
+
+  const goToDinner = () => {
+    navigation.navigate("Dinner");
+  };
 
   const [dataFoodCategory, setdataFoodCategory] = useState([
     {
       judul: "Breakfast",
       image: require("../../assets/image/breakfast.png"),
+      goTo: goToBreakfast
     },
     {
       judul: "Lunch",
       image: require("../../assets/image/lunch.png"),
+      goTo: goToLunch
     },
     {
       judul: "Dinner",
       image: require("../../assets/image/dinner.png"),
+      goTo: goToDinner
     },
   ]);
 
@@ -78,7 +95,6 @@ const RecipesPage = () => {
     })
   }, [])
 
-  const navigation = useNavigation();
 
 
   return (
@@ -154,7 +170,7 @@ const RecipesPage = () => {
                     }}
                   >
                     <Image source={{uri: item.image}} style={{ width: 60, height: 60, borderRadius:100 }} />
-                    <Text style={{ marginLeft: 8 }}>{item.title}</Text>
+                    <Text style={{ marginLeft: 8, width:100 }}>{item.title}</Text>
                   </View>
                 </TouchableOpacity>
             
@@ -228,8 +244,8 @@ const RecipesPage = () => {
                           marginTop: 10,
                         }}
                       >
-                        <Text>{item.time}</Text>
-                        <Text style={{ marginLeft: 11 }}>{item.serve}</Text>
+                        <Text>{item.time}m</Text>
+                        <Text style={{ marginLeft: 11 }}>{item.serve} Servings</Text>
                       </View>
                       {/* <Text
                         style={{
@@ -281,6 +297,7 @@ const RecipesPage = () => {
             renderItem={({ item }) => (
               <TouchableOpacity
                 style={{ width: 160, elevation: 1, padding: 10 }}
+                onPress={item.goTo}
               >
                 <Image
                   source={item.image}

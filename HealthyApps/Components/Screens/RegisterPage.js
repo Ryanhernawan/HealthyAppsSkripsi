@@ -50,8 +50,10 @@ const RegisterScreen = () => {
       return false;
     }
     else{
-      navigation.navigate("Home");
-      console.warn("berhasil sign in")
+      
+      navigation.navigate("Home", {Fullname, Email});
+      // console.warn("berhasil sign in")
+      console.log(Fullname)
     }
   }
 
@@ -60,7 +62,7 @@ const RegisterScreen = () => {
   return (
     <ScrollView>
     <View style={styles.root}>
-      <Text style={styles.title}>Register your account now</Text>
+      <Text style={styles.title}>Sign up your account now</Text>
 
       <Text style={styles.labelEmail}>Fullname</Text>
       <CustomInput
@@ -130,7 +132,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     fontSize: 20,
     fontWeight:'bold',
-    fontFamily: 'Arial',
     color: 'black',
   },
    labelFullname:{

@@ -1,4 +1,4 @@
-import React, { useState, useEffect  } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -13,79 +13,104 @@ import {
 
 import { useNavigation } from "@react-navigation/native";
 import Profile from "../../assets/image/ProfilePic.png";
-import BodyShapper from "../../assets/image/BODYSHAPER.jpg"
+import BodyShapper from "../../assets/image/BODYSHAPER.jpg";
+import SkeletonLoader from "react-native-loading-skeleton";
 
 // IMPORT FETCHNG API
 import axios from "axios";
-import app from './config';
+import app from "./config";
 
 // import {db} from './config'
-import firebase from 'firebase/compat/app'
+import firebase from "firebase/compat/app";
 
-import {getDatabase, ref, onValue, get} from  'firebase/database';
+import { getDatabase, ref, onValue, get } from "firebase/database";
 
 // -------------------------
 
-
-const HomePage = () => {
+const HomePage = ({ route }) => {
   const navigation = useNavigation();
+
+  // const {Fullname, Email} = route.params
+
 
   const goToBreakfast = () => {
     navigation.navigate("Breakfast");
   };
+  const goToLunch = () => {
+    navigation.navigate("Lunch");
+  };
+
+  const goToDinner = () => {
+    navigation.navigate("Dinner");
+  };
+
+  const goToDetailArticle = () => {
+    navigation.navigate("DetailArticle");
+  };
+
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    if (loading) {
+      setTimeout(() => {
+        setLoading(false);
+      }, 2000);
+    }
+  }, [loading]);
 
   const [dataRecomendWO, setRecomendWO] = useState([]);
+
+  useEffect(() => {
+    const db = getDatabase(app);
+    const dbRef = ref(db, "data/Workout/recomendationWorkout");
+    console.log("Receiving Data");
+    onValue(dbRef, (snapshot) => {
+      let data = snapshot.val();
+      let dWorkout = Object.values(data);
+      setRecomendWO(dWorkout);
+      console.log("Console Log Set Data", data);
+    });
+  }, []);
 
   const [dataFoodCategory, setdataFoodCategory] = useState([
     {
       judul: "Breakfast",
       image: require("../../assets/image/breakfast.png"),
-      goTo : goToBreakfast
+      goTo: goToBreakfast,
     },
     {
       judul: "Lunch",
       image: require("../../assets/image/lunch.png"),
+      goTo: goToLunch,
     },
     {
       judul: "Dinner",
       image: require("../../assets/image/dinner.png"),
+      goTo: goToDinner,
     },
   ]);
 
-  const [dataHealthyStory, setdataHealthyStory] = useState([
-    {
-      judul: "Clyde’s Story (MGH DGIM Healthy Lifestyle Program) ",
-      image: require("../../assets/image/healthyStory.jpeg"),
-    },
-    {
-      judul: "Clyde’s Story (MGH DGIM Healthy Lifestyle Program) ",
-      image: require("../../assets/image/healthyStory.jpeg"),
-    },
-    {
-      judul: "Clyde’s Story (MGH DGIM Healthy Lifestyle Program) ",
-      image: require("../../assets/image/healthyStory.jpeg"),
-    },
-  ]);
-
-  useEffect (() =>{
-    const db = getDatabase(app)
-    const dbRef = ref(db, 'data/Workout/recomendationWorkout');
+  const [dataHealthyStory, setdataHealthyStory] = useState([]);
+  useEffect(() => {
+    const db = getDatabase(app);
+    const dbRef = ref(db, "data/article");
     console.log("Receiving Data");
-    onValue(dbRef, (snapshot) =>{
+    onValue(dbRef, (snapshot) => {
       let data = snapshot.val();
-      let dWorkout = Object.values(data)
-      setRecomendWO(dWorkout)
-      console.log("Console Log Set Data",  data)
-    })
-  }, [])
+      let dWorkout = Object.values(data);
+      setdataHealthyStory(dWorkout);
+      console.log("Console Log Set Data", data);
+    });
+  }, []);
 
   return (
     <ScrollView>
       <View style={styles.container}>
         <View style={styles.header}>
-          <Text style={styles.teks}>Halo,Reza</Text>
+          <Text style={styles.teks}>Being healthy is important</Text>
           <TouchableOpacity>
-          <Image source={Profile} style={styles.gambar} />
+            <Text style={{ fontWeight: "bold", fontSize: 20 }}>Reza</Text>
+
+            {/* <Image source={Profile} style={styles.gambar} /> */}
           </TouchableOpacity>
         </View>
 
@@ -101,9 +126,6 @@ const HomePage = () => {
           >
             Recomendation Workout
           </Text>
-          {/* <TouchableOpacity onPress={goToWorkout}>
-            <Text style={{ marginTop: 30, marginRight: 16 }}>See More</Text>
-          </TouchableOpacity> */}
         </View>
 
         <View style={{ marginLeft: 16, marginTop: 20 }}>
@@ -111,22 +133,78 @@ const HomePage = () => {
             horizontal
             style={{ borderColor: "#FFFFF" }}
             showsHorizontalScrollIndicator={false}
-            data={dataRecomendWO}
-            keyExtractor={(item) => item.key}
-            renderItem={({ item }) => (
-              <TouchableOpacity
-                style={{ width: 160, elevation: 1, padding: 10 }}
-              >
-                <Image
-                  source={{uri: item.imageURL}}
-                  style={{ borderRadius: 10, width: 140, height: 80 }}
-                />
-                <Text style={{ marginTop: 10, fontWeight: "bold" }}>
-                  {item.title}
-                </Text>
-                <Text style={{ marginTop: 5 }}>{item.time}</Text>
-              </TouchableOpacity>
-            )}
+            data={loading ? Array.from({ length: 1 }) : dataRecomendWO} // Menggunakan skeleton loader saat loading masih true
+            keyExtractor={(item, index) => item?.key || index.toString()}
+            renderItem={({ item }) => {
+              if (loading) {
+                // Tampilkan skeleton loader saat masih loading
+                return (
+                  <>
+                    <View
+                      style={{
+                        backgroundColor: "#94A3B8",
+                        padding: 10,
+                        borderRadius: 10,
+                        width: 140,
+                        height: 80,
+                        alignItems: "center",
+                        alignContent: "center",
+                      }}
+                    >
+                      {/* <Text>Getting Data...</Text> */}
+                    </View>
+                    <View
+                      style={{
+                        backgroundColor: "#94A3B8",
+                        padding: 10,
+                        borderRadius: 10,
+                        width: 140,
+                        height: 80,
+                        marginLeft: 16,
+                        alignItems: "center",
+                        alignContent: "center",
+                      }}
+                    >
+                      {/* <Text>Getting Data...</Text> */}
+                    </View>
+                    <View
+                      style={{
+                        backgroundColor: "#94A3B8",
+                        padding: 10,
+                        borderRadius: 10,
+                        width: 140,
+                        height: 80,
+                        marginLeft: 16,
+                        alignItems: "center",
+                        alignContent: "center",
+                      }}
+                    >
+                      {/* <Text>Getting Data...</Text> */}
+                    </View>
+                  </>
+                );
+              } else {
+                // Tampilkan data aktual setelah selesai loading
+                return (
+                  <TouchableOpacity
+                    style={{ width: 160, elevation: 1, padding: 10 }}
+                    onPress={() =>
+                      navigation.navigate("DetailWO", { data: item })
+                    }
+                  >
+                    <Image
+                      source={{ uri: item.imageURL }}
+                      style={{ borderRadius: 10, width: 140, height: 80 }}
+                    />
+                    <Text style={{ marginTop: 10, fontWeight: "bold" }}>
+                      {item.title}
+                    </Text>
+                    <Text style={{ marginTop: 5 }}>{item.time}</Text>
+                    {/* <Text style={{ marginTop: 5 }}>{item.level}</Text> */}
+                  </TouchableOpacity>
+                );
+              }
+            }}
           />
         </View>
         {/* END SECTION  WORKOUT RECOMENDATION*/}
@@ -143,7 +221,6 @@ const HomePage = () => {
           >
             Healthy Food Category
           </Text>
-  
         </View>
 
         <View style={{ marginLeft: 16, marginTop: 20 }}>
@@ -152,20 +229,72 @@ const HomePage = () => {
             style={{ borderColor: "#FFFFF" }}
             showsHorizontalScrollIndicator={false}
             data={dataFoodCategory}
-            renderItem={({ item }) => (
-              <TouchableOpacity
-                style={{ width: 160, elevation: 1, padding: 10 }}
-                onPress={item.goTo}
-              >
-                <Image
-                  source={item.image}
-                  style={{ borderRadius: 10, width: 140, height: 80 }}
-                />
-                <Text style={{ marginTop: 10, fontWeight: "bold" }}>
-                  {item.judul}
-                </Text>
-              </TouchableOpacity>
-            )}
+            renderItem={({ item }) => {
+              if (loading) {
+                // Tampilkan skeleton loader saat masih loading
+                return (
+                  <>
+                    <View
+                      style={{
+                        backgroundColor: "#94A3B8",
+                        padding: 10,
+                        borderRadius: 10,
+                        width: 140,
+                        height: 80,
+                        alignItems: "center",
+                        alignContent: "center",
+                      }}
+                    >
+                      {/* <Text>Getting Data...</Text> */}
+                    </View>
+                    <View
+                      style={{
+                        backgroundColor: "#94A3B8",
+                        padding: 10,
+                        borderRadius: 10,
+                        width: 140,
+                        height: 80,
+                        marginLeft: 16,
+                        alignItems: "center",
+                        alignContent: "center",
+                      }}
+                    >
+                      {/* <Text>Getting Data...</Text> */}
+                    </View>
+                    <View
+                      style={{
+                        backgroundColor: "#94A3B8",
+                        padding: 10,
+                        borderRadius: 10,
+                        width: 140,
+                        height: 80,
+                        marginLeft: 16,
+                        alignItems: "center",
+                        alignContent: "center",
+                      }}
+                    >
+                      {/* <Text>Getting Data...</Text> */}
+                    </View>
+                  </>
+                );
+              } else {
+                // Tampilkan data aktual setelah selesai loading
+                return (
+                  <TouchableOpacity
+                  style={{ width: 160, elevation: 1, padding: 10 }}
+                  onPress={item.goTo}
+                >
+                  <Image
+                    source={item.image}
+                    style={{ borderRadius: 10, width: 140, height: 80 }}
+                  />
+                  <Text style={{ marginTop: 10, fontWeight: "bold" }}>
+                    {item.judul}
+                  </Text>
+                </TouchableOpacity>
+                )
+              }
+            }}
           />
         </View>
         {/* END SECTION HEALTHY FOOD CATEGORY */}
@@ -192,20 +321,83 @@ const HomePage = () => {
             horizontal
             style={{ borderColor: "#FFFFF" }}
             showsHorizontalScrollIndicator={false}
-            data={dataHealthyStory}
-            renderItem={({ item }) => (
-              <TouchableOpacity
-                style={{ width: 160, elevation: 1, padding: 10 }}
-              >
-                <Image
-                  source={item.image}
-                  style={{ borderRadius: 10, width: 140, height: 80 }}
-                />
-                <Text style={{ marginTop: 10, fontWeight: "bold" }}>
-                  {item.judul}
-                </Text>
-              </TouchableOpacity>
-            )}
+            data={loading ? Array.from({ length: 1 }) : dataHealthyStory} // Menggunakan skeleton loader saat loading masih true
+            keyExtractor={(item, index) => item?.key || index.toString()}
+            renderItem={({ item }) => {
+              if (loading) {
+                // Tampilkan skeleton loader saat masih loading
+                return (
+                  <>
+                    <View
+                      style={{
+                        backgroundColor: "#94A3B8",
+                        padding: 10,
+                        borderRadius: 10,
+                        width: 140,
+                        height: 80,
+                        alignItems: "center",
+                        alignContent: "center",
+                      }}
+                    >
+                      {/* <Text>Getting Data...</Text> */}
+                    </View>
+                    <View
+                      style={{
+                        backgroundColor: "#94A3B8",
+                        padding: 10,
+                        borderRadius: 10,
+                        width: 140,
+                        height: 80,
+                        marginLeft: 16,
+                        alignItems: "center",
+                        alignContent: "center",
+                      }}
+                    >
+                      {/* <Text>Getting Data...</Text> */}
+                    </View>
+                    <View
+                      style={{
+                        backgroundColor: "#94A3B8",
+                        padding: 10,
+                        borderRadius: 10,
+                        width: 140,
+                        height: 80,
+                        marginLeft: 16,
+                        alignItems: "center",
+                        alignContent: "center",
+                      }}
+                    >
+                      {/* <Text>Getting Data...</Text> */}
+                    </View>
+                  </>
+                );
+              } else {
+                return (
+                  <TouchableOpacity
+                    style={{ width: 160, elevation: 1, padding: 10 }}
+                    onPress={() =>
+                      navigation.navigate("DetailArticle", { data: item })
+                    }
+                    // onPress={goToDetailArticle}
+                  >
+                    <Image
+                      source={{ uri: item.imageURL }}
+                      style={{ borderRadius: 10, width: 140, height: 80 }}
+                    />
+                    <Text
+                      style={{
+                        marginTop: 10,
+                        fontWeight: "bold",
+                        width: 130,
+                        height: 100,
+                      }}
+                    >
+                      {item.title}
+                    </Text>
+                  </TouchableOpacity>
+                );
+              }
+            }}
           />
         </View>
         {/* END HEALTHY STORY SECTION */}

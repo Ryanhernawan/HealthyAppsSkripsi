@@ -9,6 +9,7 @@ import {
   ScrollView,
   ImageBackground,
   Linking,
+  LogBox
 } from "react-native";
 import React, { useState, useEffect } from "react";
 
@@ -33,46 +34,10 @@ const Breakfast = () => {
     navigation.navigate("Home");
   };
 
-  const [data, setData] = useState([
-    {
-      title: "resep1",
-      rating: "12",
-      image:
-        "https://firebasestorage.googleapis.com/v0/b/healthyappsskripsi.appspot.com/o/Recipes%20BOD%2FBOD1.png?alt=media&token=572e1c00-d7d3-492f-851b-a266d81bfa8a",
-    },
-    {
-      title: "resep2",
-      rating: "12",
-      image:
-        "https://firebasestorage.googleapis.com/v0/b/healthyappsskripsi.appspot.com/o/Recipes%20BOD%2FBOD1.png?alt=media&token=572e1c00-d7d3-492f-851b-a266d81bfa8a",
-    },
-    {
-      title: "resep3",
-      rating: "12",
-      image:
-        "https://firebasestorage.googleapis.com/v0/b/healthyappsskripsi.appspot.com/o/Recipes%20BOD%2FBOD1.png?alt=media&token=572e1c00-d7d3-492f-851b-a266d81bfa8a",
-    },
-    {
-      title: "reseps4",
-      rating: "12",
-      image:
-        "https://firebasestorage.googleapis.com/v0/b/healthyappsskripsi.appspot.com/o/Recipes%20BOD%2FBOD1.png?alt=media&token=572e1c00-d7d3-492f-851b-a266d81bfa8a",
-    },
-    {
-      title: "resepsa5",
-      rating: "12",
-      image:
-        "https://firebasestorage.googleapis.com/v0/b/healthyappsskripsi.appspot.com/o/Recipes%20BOD%2FBOD1.png?alt=media&token=572e1c00-d7d3-492f-851b-a266d81bfa8a",
-    },
-    {
-      title: "reseps6s",
-      rating: "1aa2",
-      image:
-        "https://firebasestorage.googleapis.com/v0/b/healthyappsskripsi.appspot.com/o/Recipes%20BOD%2FBOD1.png?alt=media&token=572e1c00-d7d3-492f-851b-a266d81bfa8a",
-    },
+ 
     
     
-  ]);
+
 
   //  FETCHING DATA
   const [dataBreakfast, setDataBreakfast] = useState([]);
@@ -100,6 +65,9 @@ const Breakfast = () => {
       let dRecipes = Object.values(data);
       setDataThisWeek(dRecipes);
       console.log("Console Log Set Data", data);
+      LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
+      LogBox.ignoreLogs(['Each Child in a list shoudld']);
+
     });
   }, []);
 
@@ -195,7 +163,7 @@ const Breakfast = () => {
                         source={{ uri: item.image }}
                         style={{ width: 60, height: 60, borderRadius: 100 }}
                       />
-                      <Text style={{ marginLeft: 8 }}>{item.title}</Text>
+                      <Text style={{ marginLeft: 8, width:100 }}>{item.title}</Text>
                     </View>
                   </TouchableOpacity>
                 </View>
@@ -265,7 +233,7 @@ const Breakfast = () => {
               </View>
               <View style={{ flexDirection: "row", marginBottom: 16 }}>
                 <Text style={{ marginTop: 4, marginLeft: 10 }}>Cooking time: </Text>
-                <Text style={{ marginTop: 4, marginLeft: 10 }}>{item.time}</Text>
+                <Text style={{ marginTop: 4, marginLeft: 10 }}>{item.time}m</Text>
               </View>
             </TouchableOpacity>
            )}
