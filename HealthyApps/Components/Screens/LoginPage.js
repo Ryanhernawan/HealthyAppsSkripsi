@@ -17,36 +17,47 @@ import CustomButton from "../CustomComponents/CustomButton";
 import { useNavigation } from "@react-navigation/native";
 
 // IMPORT FETCHNG API
-import axios from "axios";
-import app from "./config";
 
-// import {db} from './config'
 import firebase from "firebase/compat/app";
-import 'firebase/auth'
-import auth from "@react-native-firebase/auth";
+import "firebase/auth";
 
 import { getDatabase, ref, onValue, get } from "firebase/database";
+import { FIREBASE_AUTH } from "./config";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { ActivityIndicator } from "react-native-paper";
 
 // -------------------------
 
 const Login = () => {
-  const [Email, setEmail] = useState("healthyApps@gmail.com");
-  const [Password, setPassword] = useState("1234455");
+  const [Email, setEmail] = useState("");
+  const [Password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigation = useNavigation();
+
+  const auth = FIREBASE_AUTH;
 
   const goToRegister = () => {
     navigation.navigate("Register");
   };
 
-  
-
-  const loginUser = async (Email, Password) => {
+  const signIn = async () => {
     try {
-      await auth().signInWithEmailAndPassword(Email, Password);
+      const response = await signInWithEmailAndPassword(auth, Email, Password);
+      console.log(response);
+      navigation.navigate("Home");
     } catch (error) {
-      alert(error.message);
+      console.log(error);
+      alert("Sign in failed: " + "Check your email and password");
     }
   };
+
+  // const loginUser = async (Email, Password) => {
+  //   try {
+  //     await auth().signInWithEmailAndPassword(Email, Password);
+  //   } catch (error) {
+  //     alert(error.message);
+  //   }
+  // };
 
   const validateLogin = () => {
     if (Email.length == " " || Email.length == null) {
@@ -121,34 +132,37 @@ const Login = () => {
         <TouchableOpacity onPress={goToRegister}>
           <Text style={styles.goToRegister}>
             {" "}
-            Dont have account? 
+            Dont have account?
             <Text style={{ color: "blue" }}>Create Now</Text>
           </Text>
         </TouchableOpacity>
 
-        <TouchableOpacity
-          onPress={validateLogin}
-          // onPress={() => loginUser(Email, Password)}
-          style={{
-            backgroundColor: "#22C55E",
-            width: 180,
-            height: 40,
-            marginLeft: 106,
-            marginRight: 106,
-            alignItems: "center",
-            borderRadius: 5,
-            marginTop: 47,
-          }}
-        >
-          <Text style={{ fontWeight: "bold", color: "white", marginTop: 10 }}>
-            Sign In
-          </Text>
-        </TouchableOpacity>
-        {/* <CustomButton
-          style={styles.button}
-          text="Login"
-          onpress={validateLogin}
-        /> */}
+        {loading ? (
+          <ActivityIndicator size="large" color="#0000ff" />
+        ) : (
+          <>
+            <TouchableOpacity
+              onPress={signIn}
+              // onPress={() => loginUser(Email, Password)}
+              style={{
+                backgroundColor: "#22C55E",
+                width: 180,
+                height: 40,
+                marginLeft: 106,
+                marginRight: 106,
+                alignItems: "center",
+                borderRadius: 5,
+                marginTop: 47,
+              }}
+            >
+              <Text
+                style={{ fontWeight: "bold", color: "white", marginTop: 10 }}
+              >
+                Sign In
+              </Text>
+            </TouchableOpacity>
+          </>
+        )}
       </View>
     </ScrollView>
   );

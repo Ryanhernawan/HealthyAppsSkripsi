@@ -32,6 +32,10 @@ const HomePage = ({ route }) => {
 
   // const {Fullname, Email} = route.params
 
+  // const [Email, setEmail] = useState('')
+
+ 
+
 
   const goToBreakfast = () => {
     navigation.navigate("Breakfast");
@@ -124,7 +128,7 @@ const HomePage = ({ route }) => {
               flex: 1,
             }}
           >
-            Recomendation Workout
+            Recommendation Workout
           </Text>
         </View>
 

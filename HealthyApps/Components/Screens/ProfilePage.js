@@ -212,7 +212,7 @@ const ProfilePage = ({route}) => {
         >
           <MaterialCommunityIcons name="lock" size={25} />
           <View style={{ marginLeft: 10, flex: 1 }}>
-            <Text style={{ fontWeight: "bold", fontSize: 15 }}>Passowrd</Text>
+            <Text style={{ fontWeight: "bold", fontSize: 15 }}>Password</Text>
           </View>
           <Text style={{ fontWeight: "bold", fontSize: 20, color: "grey" }}>
             . . . . .
