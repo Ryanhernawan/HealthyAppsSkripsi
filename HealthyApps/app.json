@@ -30,7 +30,13 @@
       "permissions": [
         "ACCESS_NETWORK_STATE",
         "INTERNET"
-      ]
+      ],
+      "package": "com.skripsi.healthyapps"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "71c5ea9a-2d30-45d8-82c2-59dd48e78a78"
+      }
     }
   }
 }
