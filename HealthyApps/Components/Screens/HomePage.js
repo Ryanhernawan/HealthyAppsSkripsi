@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   ScrollView,
   ImageBackground,
+  LogBox
 } from "react-native";
 
 import { useNavigation } from "@react-navigation/native";
@@ -22,17 +23,35 @@ import app from "./config";
 
 // import {db} from './config'
 import firebase from "firebase/compat/app";
+import { FIREBASE_AUTH } from "./config";
 
-import { getDatabase, ref, onValue, get } from "firebase/database";
+import { getDatabase, ref, onValue, get,  } from "firebase/database";
 
 // -------------------------
 
 const HomePage = ({ route }) => {
+   
+  const auth = FIREBASE_AUTH
+
   const navigation = useNavigation();
 
-  // const {Fullname, Email} = route.params
+  const [name, setName] = useState(null)
 
-  // const [Email, setEmail] = useState('')
+
+  useEffect(() => {
+    const currentUserId = auth.currentUser.uid
+    const db = getDatabase(app);
+    const dbRef = ref(db, "data/users/" + currentUserId);
+    onValue(dbRef, (snapshot) => {
+      const user = snapshot.val()
+      setName(user)
+      console.log(user)
+      LogBox.ignoreLogs(['Possible Unhandled Promise']);
+    })
+    // return () => {
+    //   userRef.off('value');
+    // };
+  }, [])
 
  
 
@@ -110,12 +129,16 @@ const HomePage = ({ route }) => {
     <ScrollView>
       <View style={styles.container}>
         <View style={styles.header}>
-          <Text style={styles.teks}>Being healthy is important</Text>
+          {name && (
+          <>
+          <Text style={{fontWeight: "bold", fontSize: 20, flex: 1, }}>Hello, {name.Fullname}</Text>
           <TouchableOpacity>
-            <Text style={{ fontWeight: "bold", fontSize: 20 }}>Reza</Text>
+            <Text style={styles.teks}>Being healthy is important</Text>
 
             {/* <Image source={Profile} style={styles.gambar} /> */}
           </TouchableOpacity>
+          </>
+          )}
         </View>
 
         {/* Recomendation Workout Section  */}

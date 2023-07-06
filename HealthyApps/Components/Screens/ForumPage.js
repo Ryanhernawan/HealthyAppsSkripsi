@@ -35,15 +35,6 @@ const ForumPage = ({ value, setValue, placeholder, item }) => {
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
 
-  // const sendData = () =>{
-  //   let newData ={
-  //     title: title,
-  //     body: body
-  //   };
-  //   const ref = app.push('data/forum');
-  //   const key = ref.key;
-  //   app.child(key).update({'key' : key})
-  // }
 
   const sendData = (item) => {
     const db = getDatabase(app);

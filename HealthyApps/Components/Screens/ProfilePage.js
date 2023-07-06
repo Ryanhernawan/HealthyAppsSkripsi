@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -18,10 +18,37 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 
 import Profile from "../../assets/image/ProfilePic.png";
 
-const ProfilePage = ({route}) => {
+// IMPORT FETCHNG API
+import app from "./config";
+
+// import {db} from './config'
+import firebase from "firebase/compat/app";
+import { FIREBASE_AUTH } from "./config";
+
+import { getDatabase, ref, onValue, get } from "firebase/database";
+
+// -------------------------
+
+const ProfilePage = ({ route }) => {
+  const auth = FIREBASE_AUTH;
+
   const navigation = useNavigation();
 
-  // const {Fullname, Email} = route.params
+  const [name, setName] = useState(null);
+
+  useEffect(() => {
+    const currentUserId = auth.currentUser.uid;
+    const db = getDatabase(app);
+    const dbRef = ref(db, "data/users/" + currentUserId);
+    onValue(dbRef, (snapshot) => {
+      const user = snapshot.val();
+      setName(user);
+      console.log(user);
+    });
+    // return () => {
+    //   userRef.off('value');
+    // };
+  }, []);
 
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -29,8 +56,8 @@ const ProfilePage = ({route}) => {
     navigation.navigate("Login");
   };
   const goToEditProfile = () => {
-    navigation.navigate("DetailProfile")
-  }
+    navigation.navigate("DetailProfile");
+  };
   const cancelLogout = () => {
     setModalVisible(false);
   };
@@ -56,13 +83,19 @@ const ProfilePage = ({route}) => {
         }}
       >
         {/* <Image source={Profile} style={{ width: 50, height: 50 }} /> */}
-        <Text style={{ fontWeight: "bold", fontSize: 20 }}>Helo,</Text>
-        <View style={{ marginLeft: 10, flex: 1 }}>
-          <Text style={{ fontWeight: "bold", fontSize: 20 }}>Reza</Text>
-        </View>
-        <TouchableOpacity onPress={() => setModalVisible(true)}>
-          <MaterialCommunityIcons name="exit-to-app" size={25} />
-        </TouchableOpacity>
+        {name && (
+          <>
+            <Text style={{ fontWeight: "bold", fontSize: 20 }}>Hello,</Text>
+            <View style={{ marginLeft: 10, flex: 1 }}>
+              <Text style={{ fontWeight: "bold", fontSize: 20 }}>
+                {name.Fullname}
+              </Text>
+            </View>
+            <TouchableOpacity onPress={() => setModalVisible(true)}>
+              <MaterialCommunityIcons name="exit-to-app" size={25} />
+            </TouchableOpacity>
+          </>
+        )}
 
         <Modal
           visible={modalVisible}
@@ -146,7 +179,7 @@ const ProfilePage = ({route}) => {
           }}
           onPress={goToEditProfile}
         >
-          <Text style={{color:"white", fontSize:15}}>Edit Profile</Text>
+          <Text style={{ color: "white", fontSize: 15 }}>Edit Profile</Text>
         </TouchableOpacity>
       </View>
 
@@ -169,14 +202,20 @@ const ProfilePage = ({route}) => {
             alignItems: "center",
           }}
         >
-          <MaterialCommunityIcons name="account" size={25} />
-          <View style={{ marginLeft: 10, flex: 1 }}>
-            <Text style={{ fontWeight: "bold", fontSize: 15 }}>Username</Text>
-          </View>
+          {name && (
+            <>
+              <MaterialCommunityIcons name="account" size={25} />
+              <View style={{ marginLeft: 10, flex: 1 }}>
+                <Text style={{ fontWeight: "bold", fontSize: 15 }}>
+                  Username
+                </Text>
+              </View>
 
-          <Text style={{ fontWeight: "bold", fontSize: 15, color: "grey" }}>
-            Reza
-          </Text>
+              <Text style={{ fontWeight: "bold", fontSize: 15, color: "grey" }}>
+                {name.Fullname}
+              </Text>
+            </>
+          )}
         </View>
       </TouchableOpacity>
 
@@ -189,14 +228,18 @@ const ProfilePage = ({route}) => {
             alignItems: "center",
           }}
         >
-          <MaterialCommunityIcons name="email" size={25} />
-          <View style={{ marginLeft: 10, flex: 1 }}>
-            <Text style={{ fontWeight: "bold", fontSize: 15 }}>Email</Text>
-          </View>
+          {name && (
+            <>
+              <MaterialCommunityIcons name="email" size={25} />
+              <View style={{ marginLeft: 10, flex: 1 }}>
+                <Text style={{ fontWeight: "bold", fontSize: 15 }}>Email</Text>
+              </View>
 
-          <Text style={{ fontWeight: "bold", fontSize: 15, color: "grey" }}>
-            healthyApps@gmail.com
-          </Text>
+              <Text style={{ fontWeight: "bold", fontSize: 15, color: "grey" }}>
+                {name.Email}
+              </Text>
+            </>
+          )}
 
           {/* <MaterialCommunityIcons name="chevron-right" size={25} /> */}
         </View>

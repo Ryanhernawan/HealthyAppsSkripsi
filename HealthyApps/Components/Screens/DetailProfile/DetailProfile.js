@@ -7,13 +7,33 @@ import {
   Alert,
   ScrollView,
   Modal,
+  TextInput,
   TouchableOpacity,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import CustomInput from "../../CustomComponents/CustomInput";
 import CustomButton from "../../CustomComponents/CustomButton";
 import { RadioButton } from "react-native-paper";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+// IMPORT FETCHNG API
+import axios from "axios";
+import app from "../config";
+
+// import {db} from './config'
+import firebase from "firebase/compat/app";
+import { FIREBASE_AUTH } from "../config";
+
+import { getDatabase, ref, onValue, get, set, update } from "firebase/database";
+import {
+  updateEmail,
+  updatePassword,
+  reauthenticateWithCredential,
+  getAuth,
+  sendPasswordResetEmail,
+} from "firebase/auth";
+
+// -------------------------
 
 const DetailProfile = () => {
   const [Fullname, setFullname] = useState("");
@@ -21,103 +41,232 @@ const DetailProfile = () => {
   const [Password, setPassword] = useState("");
   const [ConfirmPassword, setConfirmPassword] = useState("");
   const [checked, setChecked] = useState("first");
-
   const [modalVisible, setModalVisible] = useState(false);
+  const [newFullName, setNewFullName] = useState("");
+  const [newEmail, setNewEmail] = useState("");
+  const [newPassword, setNewPassword] = useState("");
 
-  const handleSave = () => {
-    navigation.navigate("Profile");
+  const auth = FIREBASE_AUTH;
+
+  const [showPassword, setShowPassword] = useState(false);
+
+  const toggleShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const [showPasswordConfirm, setShowPasswordConfirm] = useState(false);
+
+  const toggleShowPasswordConfirm = () => {
+    setShowPasswordConfirm(!showPasswordConfirm);
   };
 
   const cancleSave = () => {
     setModalVisible(false);
   };
 
+  const changePassoword = () => {
+    const currentUser = auth.currentUser;
+    sendPasswordResetEmail(currentUser.email)
+      .then(() => {
+        alert("Password reset email sent");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   const { height } = useWindowDimensions();
   const navigation = useNavigation();
 
-  const backToLogin = () => {
-    navigation.navigate("LoginScreen");
-    console.warn("Berhasil kembali ke login");
-  };
-  const validateRegister = () => {
-    if (Fullname.length == " " || Fullname.length == null) {
-      Alert.alert("Fullname tidak boleh kosong");
-      return false;
-    } else if (Email.length == " " || Email.length == null) {
-      Alert.alert("Email tidak boleh kosong");
-      return false;
-    } else if (Password.length == " " || Password.length == null) {
-      Alert.alert("Password tidak boleh kosong");
-      return false;
-    } else if (Password.length > 8) {
-      Alert.alert("Password maksimal 8 karakter");
-      return false;
-    } else if (Password.length <= 6) {
-      Alert.alert("Password minimal 6 dan maximal 8");
-      return false;
-    } else if (
-      ConfirmPassword.length == " " ||
-      ConfirmPassword.length == null
-    ) {
-      Alert.alert("Confirm Password tidak boleh kosong");
-    } else if (ConfirmPassword != Password) {
-      Alert.alert("password tidak cocok");
-      return false;
-    } else {
-      navigation.navigate("Home");
-      console.warn("berhasil sign in");
+  const handleUpdateFullname = () => {
+    const currentUser = auth.currentUser;
+    const currentUserId = auth.currentUser.uid;
+    // const credential = promptForCredentials();
+    const db = getDatabase(app);
+    const dbRef = ref(db, "data/users/" + currentUserId);
+
+    if (newFullName != "") {
+      update(dbRef, { Fullname: newFullName })
+        .then(() => {
+          console.log("Fullname berhasil diperbarui");
+        })
+        .catch((error) => {
+          console.log("Terjadi kesalahan saat memperbarui fullname:", error);
+        });
     }
+
+    if (newEmail != "") {
+      update(dbRef, { Email: newEmail })
+        .then(() => {
+          console.log("Fullname berhasil diperbarui");
+        })
+        .catch((error) => {
+          console.log("Terjadi kesalahan saat memperbarui fullname:", error);
+        });
+    }
+
+    if (newEmail != currentUser.email && newEmail != "") {
+      updateEmail(currentUser, newEmail)
+        .then(() => {
+          console.log("Email berhasil diperbarui");
+        })
+        .catch((error) => {
+          console.log("Terjadi kesalahan saat memperbarui email:", error);
+        });
+    }
+
+    if (newPassword != "") {
+      sendPasswordResetEmail(auth, currentUser.email)
+        .then(() => {
+          alert("Password reset email sent");
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+
+    // if (newPassword != "") {
+    //   updatePassword(currentUser, newPassword)
+    //     .then(() => {
+    //       console.log("Password updated successfully");
+    //     })
+    //     .catch((error) => {
+    //       console.log("Error updating password:", error);
+    //     });
+    // }
+
+    navigation.navigate("Home");
   };
 
   return (
     <ScrollView>
       <View style={styles.root}>
         <Text style={styles.labelEmail}>Fullname</Text>
-        <CustomInput
+        <TextInput
+          style={{
+            backgroundColor: "white",
+            width: "90%",
+            height: 35,
+            marginTop: 10,
+            marginLeft: 16,
+            borderColor: "#e8e8e8",
+            borderWidth: 1,
+            borderRadius: 5,
+            paddingHorizontal: 10,
+
+            marginVertical: 5,
+          }}
           placeholder="Fullname"
-          value={Fullname}
-          setValue={setFullname}
+          value={newFullName}
+          // onChangeText={(displaName) => setFullname(displaName)}
+          onChangeText={setNewFullName}
+          autoCapilatize="none"
         />
 
         <Text style={styles.labelEmail}>Email</Text>
-        <CustomInput placeholder="Email" value={Email} setValue={setEmail} />
+        <TextInput
+          style={{
+            backgroundColor: "white",
+            width: "90%",
+            height: 35,
+            marginTop: 10,
+            marginLeft: 16,
+            borderColor: "#e8e8e8",
+            borderWidth: 1,
+            borderRadius: 5,
+            paddingHorizontal: 10,
 
-        <Text style={styles.labelPassword}>Pasword</Text>
-        <CustomInput
-          placeholder="Password"
-          value={Password}
-          setValue={setPassword}
-          secureTextEntry
+            marginVertical: 5,
+          }}
+          placeholder="Email"
+          value={newEmail}
+          // onChangeText={(Email) => setEmail(Email)}
+          onChangeText={setNewEmail}
+          autoCapilatize="none"
         />
 
-        <Text style={styles.labelPassword}>Confirm Pasword</Text>
-        <CustomInput
-          placeholder="Confirm Pasword"
-          value={ConfirmPassword}
-          setValue={setConfirmPassword}
-          secureTextEntry
-        />
-        {/* 
-        <Text style={styles.labelPassword} > Gender:</Text>
-  
-        <View style={{ flexDirection: "row", alignItems: "center", marginTop:16, marginLeft:16}}>
-          <View style={{ flexDirection: "row", alignItems: "center" }}>
-            <RadioButton
-              value="first"
-              status={checked === "first" ? "checked" : "unchecked"}
-              onPress={() => setChecked("first")}
+        <Text style={styles.labelPassword}>Password</Text>
+        <View>
+          <TextInput
+            style={{
+              backgroundColor: "white",
+              width: "90%",
+              height: 35,
+              marginTop: 10,
+              marginLeft: 16,
+              borderColor: "#e8e8e8",
+              borderWidth: 1,
+              borderRadius: 5,
+              paddingHorizontal: 10,
+
+              marginVertical: 5,
+            }}
+            placeholder="Password"
+            value={newPassword}
+            // onChangeText={(Password) => setPassword(Password)}
+            onChangeText={setNewPassword}
+            autoCapilatize="none"
+            secureTextEntry={!showPassword}
+          />
+          <TouchableOpacity
+            onPress={toggleShowPassword}
+            style={{ position: "absolute", top: 13, right: 30 }}
+          >
+            <MaterialCommunityIcons
+              name={showPassword ? "eye-outline" : "eye-off-outline"}
+              size={25}
             />
-            <Text>Male</Text>
-          </View>
-          <View style={{ flexDirection: "row", alignItems: "center" }}>
-            <RadioButton
-              value="second"
-              status={checked === "second" ? "checked" : "unchecked"}
-              onPress={() => setChecked("second")}
+          </TouchableOpacity>
+        </View>
+
+        <Text style={styles.labelPassword}>Confirm Password</Text>
+        <View>
+          <TextInput
+            style={{
+              backgroundColor: "white",
+              width: "90%",
+              height: 35,
+              marginTop: 10,
+              marginLeft: 16,
+              borderColor: "#e8e8e8",
+              borderWidth: 1,
+              borderRadius: 5,
+              paddingHorizontal: 10,
+
+              marginVertical: 5,
+            }}
+            placeholder="Confirm Password"
+            onChangeText={(ConfirmPassword) =>
+              setConfirmPassword(ConfirmPassword)
+            }
+            autoCapilatize="none"
+            secureTextEntry={!showPasswordConfirm}
+          />
+          <TouchableOpacity
+            onPress={toggleShowPasswordConfirm}
+            style={{ position: "absolute", top: 13, right: 30 }}
+          >
+            <MaterialCommunityIcons
+              name={showPasswordConfirm ? "eye-outline" : "eye-off-outline"}
+              size={25}
             />
-            <Text>Female</Text>
-          </View>
-        </View> */}
+          </TouchableOpacity>
+        </View>
+
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            marginLeft: 16,
+            marginTop: 20,
+          }}
+        >
+          {/* <View style={{flex:1}}> */}
+          {/* <MaterialCommunityIcons name={"circle"} size={12} color={"grey"} />
+          <Text style={{ flex: 1, marginLeft: 5, color: "grey" }}>
+            Only fill what you want to change
+          </Text> */}
+        </View>
 
         <TouchableOpacity
           style={{
@@ -128,12 +277,12 @@ const DetailProfile = () => {
             height: 40,
             marginLeft: 106,
             marginRight: 106,
-            marginTop:100,
+            marginTop: 100,
             alignItems: "center",
           }}
           onPress={() => setModalVisible(true)}
         >
-          <Text style={{color:"white"}}>Save</Text>
+          <Text style={{ color: "white" }}>Save</Text>
         </TouchableOpacity>
 
         <Modal
@@ -196,7 +345,7 @@ const DetailProfile = () => {
                       borderRadius: 6,
                       alignItems: "center",
                     }}
-                    onPress={handleSave}
+                    onPress={handleUpdateFullname}
                   >
                     <Text style={{ color: "white" }}>Yes</Text>
                   </TouchableOpacity>

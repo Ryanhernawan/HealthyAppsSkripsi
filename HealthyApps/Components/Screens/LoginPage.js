@@ -15,11 +15,18 @@ import Logo from "../../assets/image/Logo.png";
 import CustomInput from "../CustomComponents/CustomInput";
 import CustomButton from "../CustomComponents/CustomButton";
 import { useNavigation } from "@react-navigation/native";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
 // IMPORT FETCHNG API
 
 import firebase from "firebase/compat/app";
-import "firebase/auth";
+import {
+  updateEmail,
+  updatePassword,
+  reauthenticateWithCredential,
+  getAuth,
+  sendPasswordResetEmail,
+} from "firebase/auth";
 
 import { getDatabase, ref, onValue, get } from "firebase/database";
 import { FIREBASE_AUTH } from "./config";
@@ -33,6 +40,11 @@ const Login = () => {
   const [Password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const navigation = useNavigation();
+  const [showPassword, setShowPassword] = useState(false);
+
+  const toggleShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
 
   const auth = FIREBASE_AUTH;
 
@@ -41,42 +53,61 @@ const Login = () => {
   };
 
   const signIn = async () => {
-    try {
-      const response = await signInWithEmailAndPassword(auth, Email, Password);
-      console.log(response);
-      navigation.navigate("Home");
-    } catch (error) {
-      console.log(error);
-      alert("Sign in failed: " + "Check your email and password");
-    }
-  };
-
-  // const loginUser = async (Email, Password) => {
-  //   try {
-  //     await auth().signInWithEmailAndPassword(Email, Password);
-  //   } catch (error) {
-  //     alert(error.message);
-  //   }
-  // };
-
-  const validateLogin = () => {
     if (Email.length == " " || Email.length == null) {
-      Alert.alert("Email tidak boleh kosong");
+      Alert.alert("Email must be filled");
       return false;
     } else if (Password.length == " " || Password.length == null) {
-      Alert.alert("Password tidak boleh kosong");
-      return false;
-    } else if (Password.length > 8) {
-      Alert.alert("Password maksimal 8 karakter");
-      return false;
-    } else if (Password.length <= 6) {
-      Alert.alert("Password minimal 6 dan maximal 8");
+      Alert.alert("Password must be filled");
       return false;
     } else {
-      navigation.navigate("Home");
-      // console.warn("Berhasil Login");
+      try {
+        const response = await signInWithEmailAndPassword(
+          auth,
+          Email,
+          Password
+        );
+        console.log(response);
+        navigation.navigate("Home");
+      } catch (error) {
+        console.log(error);
+        alert("Sign in failed: " + "Check your email and password");
+      }
     }
   };
+
+  const forgotPassword = () => {
+    // if (Email.length == " " || Email.length == null) {
+    //   Alert.alert("Email must be filled");
+    //   return false;
+    // } else {
+    //   sendPasswordResetEmail(auth, Email)
+    //     .then(() => {
+    //       alert("Password reset email sent");
+    //     })
+    //     .catch((error) => {
+    //       console.log(error);
+    //     });
+    // }
+  };
+
+  // const validateLogin = () => {
+  //   if (Email.length == " " || Email.length == null) {
+  //     Alert.alert("Email tidak boleh kosong");
+  //     return false;
+  //   } else if (Password.length == " " || Password.length == null) {
+  //     Alert.alert("Password tidak boleh kosong");
+  //     return false;
+  //   } else if (Password.length > 8) {
+  //     Alert.alert("Password maksimal 8 karakter");
+  //     return false;
+  //   } else if (Password.length <= 6) {
+  //     Alert.alert("Password minimal 6 dan maximal 8");
+  //     return false;
+  //   } else {
+  //     navigation.navigate("Home");
+  //     // console.warn("Berhasil Login");
+  //   }
+  // };
 
   return (
     <ScrollView>
@@ -108,26 +139,44 @@ const Login = () => {
           autoCapilatize="none"
         />
 
-        <Text style={styles.labelPassword}>Pasword</Text>
-        <TextInput
-          style={{
-            backgroundColor: "white",
-            width: "90%",
-            height: 35,
-            marginTop: 10,
-            marginLeft: 16,
-            borderColor: "#e8e8e8",
-            borderWidth: 1,
-            borderRadius: 5,
-            paddingHorizontal: 10,
+        <Text style={styles.labelPassword}>Password</Text>
+        <View>
+          <TextInput
+            style={{
+              backgroundColor: "white",
+              width: "90%",
+              height: 35,
+              marginTop: 10,
+              marginLeft: 16,
+              borderColor: "#e8e8e8",
+              borderWidth: 1,
+              borderRadius: 5,
+              paddingHorizontal: 10,
 
-            marginVertical: 5,
-          }}
-          placeholder="Password"
-          onChangeText={(Password) => setPassword(Password)}
-          autoCapilatize="none"
-          secureTextEntry={true}
-        />
+              marginVertical: 5,
+            }}
+            placeholder="Password"
+            // value="Ryanhs15"
+            onChangeText={(Password) => setPassword(Password)}
+            autoCapilatize="none"
+            secureTextEntry={!showPassword}
+          />
+
+          <TouchableOpacity
+            onPress={toggleShowPassword}
+            style={{ position: "absolute", top: 13, right: 30 }}
+          >
+            <MaterialCommunityIcons
+              name={showPassword ? "eye-outline" : "eye-off-outline"}
+              size={25}
+            />
+          </TouchableOpacity>
+        </View>
+        {/* <TouchableOpacity onPress={forgotPassword}>
+          <Text style={{ color: "grey", marginLeft: 18, marginTop: 10, marginBottom:10 }}>
+            Forgot Pasword
+          </Text>
+        </TouchableOpacity> */}
 
         <TouchableOpacity onPress={goToRegister}>
           <Text style={styles.goToRegister}>

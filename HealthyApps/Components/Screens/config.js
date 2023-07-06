@@ -1,6 +1,6 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getAuth, updateProfile, sendEmailVerification } from "firebase/auth";
+import { getAuth, updateProfile, sendEmailVerification, EmailAuthProvider } from "firebase/auth";
 import {getFirestore} from "firebase/firestore"
 
 // import { getAnalytics } from "firebase/analytics";
@@ -23,6 +23,7 @@ const firebaseConfig = {
 // Initialize Firebase
 export  const app = initializeApp(firebaseConfig);
 export const FIREBASE_AUTH = getAuth(app)
+// export const EMAIL_AUTH = EmailAuthProvider()
 // export const FIREBASE_UPDATE = updateProfile(app)
 export const FIRESTORE_DB = getFirestore(app)
 export const FIREBASE_SENDEMAIL = sendEmailVerification(app)
