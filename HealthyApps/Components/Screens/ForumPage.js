@@ -38,10 +38,10 @@ const ForumPage = ({ value, setValue, placeholder, item }) => {
 
   const sendData = (item) => {
     const db = getDatabase(app);
-    const dbRef = ref(db, "data/forum");
+    const dbRef = ref(db, "data/forum1");
     const newPostRef = push(dbRef);
 
-    set(ref(db, "data/forum/postForum" + title), {
+    set(ref(db, "data/forum1/postForum" + title), {
       name: name,
       title: title,
       body: body,
@@ -53,7 +53,7 @@ const ForumPage = ({ value, setValue, placeholder, item }) => {
   const [dataForum, setDataForum] = useState([]);
   useEffect(() => {
     const db = getDatabase(app);
-    const dbRef = ref(db, "data/forum");
+    const dbRef = ref(db, "data/forum1");
     onValue(dbRef, (snapshot) => {
       let data = snapshot.val();
       let newPost = Object.keys(data).map((key) => ({

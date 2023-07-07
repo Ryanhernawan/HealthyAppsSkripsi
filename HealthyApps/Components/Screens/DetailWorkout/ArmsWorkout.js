@@ -135,13 +135,13 @@ import {
                     {item.title}
                   </Text>
   
-                  <TouchableOpacity onPress={handlePress}>
+                  {/* <TouchableOpacity onPress={handlePress}>
                     <MaterialCommunityIcons
                       name="heart"
                       size={30}
                       style={{ marginRight: 10 }}
                     />
-                  </TouchableOpacity>
+                  </TouchableOpacity> */}
                 </View>
                 <View style={{ flexDirection: "row", marginBottom: 16 }}>
                   <Text style={{ marginTop: 4, marginLeft: 10 }}>{item.level}</Text>
