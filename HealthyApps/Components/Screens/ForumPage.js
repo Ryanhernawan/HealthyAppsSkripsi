@@ -35,18 +35,22 @@ const ForumPage = ({ value, setValue, placeholder, item }) => {
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
 
-
   const sendData = (item) => {
     const db = getDatabase(app);
     const dbRef = ref(db, "data/forum1");
     const newPostRef = push(dbRef);
 
-    set(ref(db, "data/forum1/postForum" + title), {
-      name: name,
-      title: title,
-      body: body,
-      timestamp: new Date().toISOString(),
-    });
+    if (body.length <= 5) {
+      Alert.alert("Body must be minimum 5 characters");
+      return false;
+    } else {
+       set(ref(db, "data/forum1/postForum" + title), {
+        name: name,
+        title: title,
+        body: body,
+        timestamp: new Date().toISOString(),
+      });
+    }
     setData("");
   };
 
@@ -63,8 +67,8 @@ const ForumPage = ({ value, setValue, placeholder, item }) => {
       // console.log(newPost);
 
       setDataForum(newPost);
-      LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
-      LogBox.ignoreLogs(['Each Child in a list shoudld']);
+      LogBox.ignoreLogs(["VirtualizedLists should never be nested"]);
+      LogBox.ignoreLogs(["Each Child in a list shoudld"]);
     });
   }, []);
 
@@ -147,8 +151,15 @@ const ForumPage = ({ value, setValue, placeholder, item }) => {
         </View>
         <View style={{ marginLeft: 16, marginRight: 16 }}>
           {dataForum.length === 0 ? (
-            <View style={{justifyContent:"center", alignItems:"center", alignContent:"center", margin:150}}>
-              <Text style={{fontSize:15}}>No Data</Text>
+            <View
+              style={{
+                justifyContent: "center",
+                alignItems: "center",
+                alignContent: "center",
+                margin: 150,
+              }}
+            >
+              <Text style={{ fontSize: 15 }}>No Data</Text>
             </View>
           ) : (
             <FlatList

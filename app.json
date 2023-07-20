@@ -1,0 +1,12 @@
+{
+  "expo": {
+    "extra": {
+      "eas": {
+        "projectId": "32c6b9aa-958b-43e2-a1ce-29ccc8967453"
+      }
+    },
+    "android": {
+      "package": "com.skripsiapps.healthyapps"
+    }
+  }
+}
