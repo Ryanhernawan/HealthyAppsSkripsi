@@ -3,6 +3,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer, StackRouter } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import { enableScreens } from 'react-native-screens';
 
 import Login from "./Screens/LoginPage";
 import Register from "./Screens/RegisterPage";
@@ -37,7 +38,10 @@ import Dinner from "./Screens/RecipesCategory/Dinner";
 import WatchRecipes from "./Screens/DetailRecipes/WatchRecipes";
 
 import DetailProfile from "./Screens/DetailProfile/DetailProfile";
+import HomePage from "./Screens/HomePage";
 
+
+enableScreens();
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
@@ -48,7 +52,7 @@ function BottomNavigation() {
       screenOptions={{ headerShown: false }}
     >
       <Tab.Screen
-        name="home"
+        name="Home"
         component={Home}
         options={{
           title: "Home",
@@ -127,7 +131,7 @@ export default function Navigation() {
         />
         <Stack.Screen
           name="Home"
-          component={BottomNavigation}
+          component={HomePage}
           options={{
             headerShown: false,
           }}

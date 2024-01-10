@@ -10,6 +10,7 @@ import {
   KeyboardAvoidingView,
   Platform,
   ScrollView,
+  Button,
 } from "react-native";
 import Logo from "../../assets/image/Logo.png";
 import CustomInput from "../CustomComponents/CustomInput";
@@ -109,16 +110,23 @@ const Login = () => {
   //   }
   // };
 
+  const data = "Data yang akan dikirim";
+  const navigateToScreen2 = () => {
+    navigation.navigate("Home", { screenParams: data });
+  };
+
   return (
     <ScrollView>
       <View style={styles.container}>
+        <Button
+          title="Pindah ke tab lain"
+          onPress={() => navigation.navigate("Home", { data })}
+        />
         <Image source={Logo} style={[styles.logo]} resizeMode="contain" />
-
         <Text style={styles.title}>Welcome To Healthy Apps</Text>
         <Text style={styles.desc}>
           Getting Healthy Is Important For Your Life
         </Text>
-
         <Text style={styles.labelEmail}>Email</Text>
         <TextInput
           style={{
@@ -138,7 +146,6 @@ const Login = () => {
           onChangeText={(Email) => setEmail(Email)}
           autoCapilatize="none"
         />
-
         <Text style={styles.labelPassword}>Password</Text>
         <View>
           <TextInput
@@ -177,7 +184,6 @@ const Login = () => {
             Forgot Pasword
           </Text>
         </TouchableOpacity> */}
-
         <TouchableOpacity onPress={goToRegister}>
           <Text style={styles.goToRegister}>
             {" "}
@@ -185,7 +191,6 @@ const Login = () => {
             <Text style={{ color: "blue" }}>Create Now</Text>
           </Text>
         </TouchableOpacity>
-
         {loading ? (
           <ActivityIndicator size="large" color="#0000ff" />
         ) : (

@@ -80,21 +80,21 @@ const RegisterScreen = () => {
 
   const signUp = async (Email, Password, Fullname) => {
     try {
-      const response = await createUserWithEmailAndPassword(
-        auth,
-        Email,
-        Password
-      ).then((userCredential) => {
-        const userId = userCredential.user.uid;
-        const db = getDatabase(app);
-        const dbRef = ref(db, "data/users");
-        const newUsers = push(dbRef);
+      // const response = await createUserWithEmailAndPassword(
+      //   auth,
+      //   Email,
+      //   Password
+      // ).then((userCredential) => {
+      //   const userId = userCredential.user.uid;
+      //   const db = getDatabase(app);
+      //   const dbRef = ref(db, "data/users");
+      //   const newUsers = push(dbRef);
 
-        set(ref(db, "data/users/" + userId), {
-          Fullname,
-          Email,
-        });
-      });
+      //   set(ref(db, "data/users/" + userId), {
+      //     Fullname,
+      //     Email,
+      //   });
+      // });
       navigation.navigate("Home");
 
       //  console.log("DATA USER", response)
@@ -261,6 +261,7 @@ const RegisterScreen = () => {
                   <CustomButton
                     text="Go to home"
                     onpress={() => signUp(Email, Password, Fullname)}
+                    // onpress={signUp}
                   />
                   {/* <Button title="Yes" onPress={handleLogout} /> */}
                 </View>

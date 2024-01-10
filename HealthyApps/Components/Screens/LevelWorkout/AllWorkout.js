@@ -104,7 +104,7 @@ const AllWorkout =  () => {
       </View>
       <View style={{ marginTop: 30 }}>
         <FlatList
-         style={{ borderColor: "#FFFFF",height: 550}}
+         style={{ borderColor: "#FFFFF",height: 650}}
          showsVerticalScrollIndicator={false}
          data={Workout}
          keyExtractor={(item) => item.key}
